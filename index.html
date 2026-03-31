@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Терапия ПРЛ+СДВГ | Облачная версия</title>
+    <title>Терапия ПРЛ+СДВГ</title>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
-            font-family: system-ui, 'Segoe UI', Roboto, sans-serif;
+            font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
             background: #f0f4f8;
             color: #1e293b;
             padding: 20px;
@@ -40,7 +40,7 @@
             cursor: pointer;
             transition: 0.2s;
         }
-        button:hover { background: #2c3e66; transform: translateY(-1px); }
+        button:hover { background: #2c3e66; }
         .btn-outline {
             background: transparent;
             border: 1px solid #4a6fa5;
@@ -95,8 +95,6 @@
             border-radius: 16px;
             margin-bottom: 1rem;
             white-space: pre-wrap;
-            font-family: monospace;
-            font-size: 0.85rem;
         }
         .success-message {
             background: #dcfce7;
@@ -108,61 +106,64 @@
     </style>
 </head>
 <body>
-<div class="container" id="app"></div>
+<div id="app" class="container"></div>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
-    // Ключи Supabase
+    // --- Функция для показа ошибок на экране ---
+    function showError(msg) {
+        const app = document.getElementById('app');
+        const errDiv = document.createElement('div');
+        errDiv.className = 'error-message';
+        errDiv.innerHTML = `⚠️ <strong>Ошибка:</strong><br>${msg}`;
+        app.prepend(errDiv);
+        console.error(msg);
+    }
+
+    // --- Базовые данные Supabase ---
     const SUPABASE_URL = "https://jnfhgnikpgpyeudlrdpe.supabase.co";
     const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImpuZmhnbmlrcGdweWV1ZGxyZHBlIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzQ5NDY3NjEsImV4cCI6MjA5MDUyMjc2MX0.7FsplRzp0dgYagixZnAHvH_Hl2OFZFUi5qvlU04roIg";
 
-    const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+    let supabaseClient = null;
     let currentRole = null; // 'therapist' или 'patient'
     let formsCache = [];
 
-    // Функция для отображения ошибок на странице
-    function showError(message) {
-        const app = document.getElementById('app');
-        const errorDiv = document.createElement('div');
-        errorDiv.className = 'error-message';
-        errorDiv.innerHTML = `<strong>⚠️ Ошибка:</strong><br>${message}`;
-        // Если есть уже контент, показываем сверху
-        app.prepend(errorDiv);
-        console.error(message);
-    }
-
-    function showSuccess(message) {
-        const app = document.getElementById('app');
-        const successDiv = document.createElement('div');
-        successDiv.className = 'success-message';
-        successDiv.innerHTML = `✅ ${message}`;
-        app.prepend(successDiv);
-        setTimeout(() => successDiv.remove(), 3000);
-    }
-
-    // Проверка соединения и загрузка форм
-    async function loadForms() {
+    // --- Инициализация клиента Supabase ---
+    function initSupabase() {
         try {
-            const { data, error } = await supabase.from('forms').select('*');
-            if (error) {
-                showError(`Не удалось загрузить формы: ${error.message}. Проверьте настройки CORS и наличие таблицы 'forms'.`);
-                return false;
-            }
-            if (!data || data.length === 0) {
-                showError("Таблица 'forms' пуста. Выполните SQL-скрипт для создания форм.");
-                return false;
-            }
-            formsCache = data;
-            showSuccess(`Загружено ${formsCache.length} форм.`);
+            supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
             return true;
-        } catch (err) {
-            showError(`Исключение при загрузке форм: ${err.message}`);
+        } catch(e) {
+            showError("Не удалось создать клиент Supabase: " + e.message);
             return false;
         }
     }
 
+    // --- Загрузка списка форм из Supabase ---
+    async function loadForms() {
+        if (!supabaseClient) return false;
+        try {
+            const { data, error } = await supabaseClient.from('forms').select('*');
+            if (error) {
+                showError(`Ошибка загрузки форм: ${error.message}`);
+                return false;
+            }
+            if (!data || data.length === 0) {
+                showError("Таблица 'forms' пуста. Выполните SQL-скрипт.");
+                return false;
+            }
+            formsCache = data;
+            return true;
+        } catch(e) {
+            showError(`Исключение при загрузке форм: ${e.message}`);
+            return false;
+        }
+    }
+
+    // --- Получить доступность форм ---
     async function getAvailability() {
-        const { data, error } = await supabase.from('availability').select('*');
+        if (!supabaseClient) return {};
+        const { data, error } = await supabaseClient.from('availability').select('*');
         if (error) {
             showError(`Ошибка получения доступности: ${error.message}`);
             return {};
@@ -172,25 +173,33 @@
         return obj;
     }
 
+    // --- Установить доступность (только терапевт) ---
     async function setAvailability(formId, isAvailable) {
-        const { error } = await supabase
+        if (!supabaseClient) return;
+        const { error } = await supabaseClient
             .from('availability')
             .upsert({ form_id: formId, is_available: isAvailable }, { onConflict: 'form_id' });
         if (error) showError(`Ошибка обновления доступности: ${error.message}`);
     }
 
+    // --- Сохранить ответ пациента ---
     async function addResponse(formId, dataObj) {
-        const { error } = await supabase.from('responses').insert({ form_id: formId, data: dataObj });
+        if (!supabaseClient) return false;
+        const { error } = await supabaseClient.from('responses').insert({ form_id: formId, data: dataObj });
         if (error) {
-            showError(`Ошибка сохранения ответа: ${error.message}`);
+            showError(`Ошибка сохранения: ${error.message}`);
             return false;
         }
-        showSuccess('Ответ сохранён! Терапевт увидит его сразу.');
         return true;
     }
 
+    // --- Получить все ответы (для терапевта) ---
     async function getAllResponses() {
-        const { data, error } = await supabase.from('responses').select('*, forms(name)').order('created_at', { ascending: false });
+        if (!supabaseClient) return [];
+        const { data, error } = await supabaseClient
+            .from('responses')
+            .select('*, forms(name)')
+            .order('created_at', { ascending: false });
         if (error) {
             showError(`Ошибка загрузки ответов: ${error.message}`);
             return [];
@@ -198,8 +207,8 @@
         return data;
     }
 
-    // Панель терапевта
-    async function renderTherapistDashboard() {
+    // --- Панель терапевта ---
+    async function renderTherapist() {
         const app = document.getElementById('app');
         const availability = await getAvailability();
         app.innerHTML = `
@@ -209,17 +218,18 @@
             </div>
             <div class="card">
                 <h2>📋 Управление доступом</h2>
-                <div id="formsListTherapist" class="form-list"></div>
+                <div id="formsList"></div>
             </div>
             <div class="card">
                 <h2>📥 Ответы пациента</h2>
                 <div id="responsesViewer">Загрузка...</div>
             </div>
-            <footer>Данные синхронизируются через Supabase в реальном времени.</footer>
+            <footer>Данные синхронизируются через Supabase</footer>
         `;
 
-        const formsContainer = document.getElementById('formsListTherapist');
-        formsCache.forEach(form => {
+        // Список форм с переключателями
+        const formsContainer = document.getElementById('formsList');
+        for (let form of formsCache) {
             const isAvail = availability[form.id] || false;
             const div = document.createElement('div');
             div.className = 'form-item';
@@ -234,13 +244,14 @@
                 <p style="font-size:0.8rem;">${form.description || ''}</p>
             `;
             formsContainer.appendChild(div);
-            const checkbox = div.querySelector('input');
-            checkbox.addEventListener('change', async (e) => {
+            const chk = div.querySelector('input');
+            chk.addEventListener('change', async (e) => {
                 await setAvailability(form.id, e.target.checked);
             });
-        });
+        }
 
-        async function updateResponsesView() {
+        // Загрузка и отображение ответов
+        async function updateResponses() {
             const responses = await getAllResponses();
             const container = document.getElementById('responsesViewer');
             if (!container) return;
@@ -260,14 +271,14 @@
             }
             container.innerHTML = html;
         }
+        await updateResponses();
 
-        await updateResponsesView();
-
-        const responsesSub = supabase.channel('responses-changes')
-            .on('postgres_changes', { event: 'INSERT', schema: 'public', table: 'responses' }, () => updateResponsesView())
+        // Подписка на изменения в реальном времени
+        const responsesSub = supabaseClient.channel('responses-changes')
+            .on('postgres_changes', { event: 'INSERT', schema: 'public', table: 'responses' }, () => updateResponses())
             .subscribe();
-        const availSub = supabase.channel('availability-changes')
-            .on('postgres_changes', { event: 'UPDATE', schema: 'public', table: 'availability' }, () => renderTherapistDashboard())
+        const availSub = supabaseClient.channel('availability-changes')
+            .on('postgres_changes', { event: 'UPDATE', schema: 'public', table: 'availability' }, () => renderTherapist())
             .subscribe();
 
         document.getElementById('logoutBtn').addEventListener('click', () => {
@@ -279,9 +290,11 @@
         });
     }
 
-    // Пациентская панель
-    async function renderPatientDashboard() {
+    // --- Панель пациента ---
+    async function renderPatient() {
         const app = document.getElementById('app');
+        const availability = await getAvailability();
+        const availableForms = formsCache.filter(f => availability[f.id] === true);
         app.innerHTML = `
             <div class="header">
                 <h1>📝 Мои домашние задания</h1>
@@ -290,20 +303,14 @@
             <div class="card">
                 <div id="patientFormsContainer"></div>
             </div>
-            <footer>Заполняйте листы после эпизодов. Данные сохраняются в облаке.</footer>
+            <footer>Данные сохраняются в облаке и видны терапевту.</footer>
         `;
 
         const container = document.getElementById('patientFormsContainer');
-        let availability = await getAvailability();
-        let availableForms = formsCache.filter(f => availability[f.id] === true);
-
-        function renderAvailableForms() {
-            if (availableForms.length === 0) {
-                container.innerHTML = '<p>⏳ Нет доступных форм. Терапевт откроет их позже.</p>';
-                return;
-            }
-            container.innerHTML = '';
-            availableForms.forEach(form => {
+        if (availableForms.length === 0) {
+            container.innerHTML = '<p>⏳ Нет доступных форм. Терапевт откроет их позже.</p>';
+        } else {
+            for (let form of availableForms) {
                 const formCard = document.createElement('div');
                 formCard.className = 'form-item';
                 formCard.style.marginBottom = '1.5rem';
@@ -341,19 +348,14 @@
                             const input = fieldsContainer.querySelector(`[data-field="${field.name}"]`);
                             if (input) input.value = '';
                         });
+                        alert('✅ Ответ сохранён!');
                     }
                 });
-            });
+            }
         }
 
-        renderAvailableForms();
-
-        const availSub = supabase.channel('availability-changes')
-            .on('postgres_changes', { event: '*', schema: 'public', table: 'availability' }, async () => {
-                availability = await getAvailability();
-                availableForms = formsCache.filter(f => availability[f.id] === true);
-                renderAvailableForms();
-            })
+        const availSub = supabaseClient.channel('availability-changes')
+            .on('postgres_changes', { event: '*', schema: 'public', table: 'availability' }, () => renderPatient())
             .subscribe();
 
         document.getElementById('logoutBtnPatient').addEventListener('click', () => {
@@ -364,7 +366,7 @@
         });
     }
 
-    // Экран входа (без отображения паролей)
+    // --- Экран входа (без показа паролей) ---
     function renderLogin() {
         const app = document.getElementById('app');
         app.innerHTML = `
@@ -373,8 +375,8 @@
                 <p style="text-align:center; margin-bottom:2rem;">Введите код доступа</p>
                 <div class="form-grid">
                     <div class="field-group">
-                        <label>Код доступа</label>
-                        <input type="password" id="accessCode" placeholder="Введите код" autocomplete="off">
+                        <label>Код</label>
+                        <input type="password" id="accessCode" placeholder="••••" autocomplete="off">
                     </div>
                     <div class="form-actions">
                         <button id="loginBtn">Войти</button>
@@ -387,37 +389,47 @@
             if (code === '1113') {
                 currentRole = 'therapist';
                 sessionStorage.setItem('therapyRole', 'therapist');
-                const ok = await loadForms();
-                if (ok) renderTherapistDashboard();
+                const formsLoaded = await loadForms();
+                if (formsLoaded) renderTherapist();
+                else renderLogin(); // остаёмся на входе, ошибка уже показана
             } else if (code === '1') {
                 currentRole = 'patient';
                 sessionStorage.setItem('therapyRole', 'patient');
-                const ok = await loadForms();
-                if (ok) renderPatientDashboard();
+                const formsLoaded = await loadForms();
+                if (formsLoaded) renderPatient();
+                else renderLogin();
             } else {
-                alert('Неверный код доступа');
+                alert('Неверный код');
             }
         });
     }
 
-    // Старт
-    (async () => {
+    // --- Запуск ---
+    function start() {
+        if (!initSupabase()) {
+            showError("Не удалось инициализировать Supabase. Проверьте интернет и URL/ключ.");
+            renderLogin();
+            return;
+        }
         const savedRole = sessionStorage.getItem('therapyRole');
-        // Пробуем загрузить формы, но без отображения ошибок до входа, чтобы не пугать
         if (savedRole === 'therapist') {
             currentRole = 'therapist';
-            const ok = await loadForms();
-            if (ok) renderTherapistDashboard();
-            else renderLogin(); // если ошибка, показываем вход
+            loadForms().then(ok => {
+                if (ok) renderTherapist();
+                else renderLogin();
+            });
         } else if (savedRole === 'patient') {
             currentRole = 'patient';
-            const ok = await loadForms();
-            if (ok) renderPatientDashboard();
-            else renderLogin();
+            loadForms().then(ok => {
+                if (ok) renderPatient();
+                else renderLogin();
+            });
         } else {
             renderLogin();
         }
-    })();
+    }
+
+    start();
 </script>
 </body>
 </html>
