@@ -90,6 +90,7 @@
         .login-screen { max-width: 450px; margin: 10vh auto; }
         footer { text-align: center; margin-top: 2rem; font-size: 0.75rem; color: #6c7a91; }
         @media (max-width: 700px) { .card { padding: 1.2rem; } }
+        .error-message { background: #fee2e2; color: #991b1b; padding: 1rem; border-radius: 16px; margin-bottom: 1rem; }
     </style>
 </head>
 <body>
@@ -101,28 +102,49 @@
     const SUPABASE_URL = "https://jnfhgnikpgpyeudlrdpe.supabase.co";
     const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImpuZmhnbmlrcGdweWV1ZGxyZHBlIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzQ5NDY3NjEsImV4cCI6MjA5MDUyMjc2MX0.7FsplRzp0dgYagixZnAHvH_Hl2OFZFUi5qvlU04roIg";
 
+    console.log("Supabase URL:", SUPABASE_URL);
     const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
-    let currentRole = null;   // 'therapist' или 'patient'
-    let formsCache = [];      // все формы из БД
+    let currentRole = null;
+    let formsCache = [];
 
-    // Инициализация: загружаем формы
-    async function loadForms() {
-        const { data, error } = await supabase.from('forms').select('*');
-        if (error) console.error(error);
-        else formsCache = data;
+    // Функция для показа ошибки на экране (если что-то пошло не так)
+    function showError(message) {
+        const app = document.getElementById('app');
+        app.innerHTML = `<div class="error-message">⚠️ Ошибка: ${message}</div>`;
     }
 
-    // Получить доступность всех форм
+    // Загрузка форм с отладкой
+    async function loadForms() {
+        console.log("Загружаем формы...");
+        const { data, error } = await supabase.from('forms').select('*');
+        if (error) {
+            console.error("Ошибка загрузки форм:", error);
+            showError(`Не удалось загрузить формы: ${error.message}. Проверьте, что таблица "forms" создана.`);
+            return false;
+        }
+        if (!data || data.length === 0) {
+            console.warn("Таблица forms пуста. Выполните SQL-скрипт.");
+            showError("Таблица 'forms' пуста. Выполните SQL-скрипт для создания форм.");
+            return false;
+        }
+        formsCache = data;
+        console.log(`Загружено ${formsCache.length} форм.`);
+        return true;
+    }
+
+    // Получить доступность
     async function getAvailability() {
         const { data, error } = await supabase.from('availability').select('*');
-        if (error) return {};
+        if (error) {
+            console.error("Ошибка получения доступности:", error);
+            return {};
+        }
         const obj = {};
         data.forEach(row => { obj[row.form_id] = row.is_available; });
         return obj;
     }
 
-    // Обновить доступность одной формы (только для терапевта)
     async function setAvailability(formId, isAvailable) {
         const { error } = await supabase
             .from('availability')
@@ -130,47 +152,37 @@
         if (error) console.error(error);
     }
 
-    // Добавить ответ пациента
     async function addResponse(formId, dataObj) {
-        const { error } = await supabase
-            .from('responses')
-            .insert({ form_id: formId, data: dataObj });
+        const { error } = await supabase.from('responses').insert({ form_id: formId, data: dataObj });
         if (error) alert('Ошибка сохранения: ' + error.message);
-        else alert('✅ Ответ сохранён! Терапевт увидит его сразу.');
+        else alert('✅ Ответ сохранён!');
     }
 
-    // Получить все ответы (для терапевта)
     async function getAllResponses() {
-        const { data, error } = await supabase
-            .from('responses')
-            .select('*, forms(name)')
-            .order('created_at', { ascending: false });
+        const { data, error } = await supabase.from('responses').select('*, forms(name)').order('created_at', { ascending: false });
         if (error) return [];
         return data;
     }
 
-    // --- Рендер для терапевта ---
+    // Рендер терапевта
     async function renderTherapistDashboard() {
         const app = document.getElementById('app');
         const availability = await getAvailability();
         app.innerHTML = `
             <div class="header">
-                <h1>🧑‍⚕️ Режим терапевта (реальное время)</h1>
+                <h1>🧑‍⚕️ Режим терапевта</h1>
                 <button id="logoutBtn" class="btn-outline">Выйти</button>
             </div>
             <div class="card">
-                <h2>📋 Управление доступом к формам</h2>
-                <p>Включите форму – пациент увидит её и сможет заполнять. Изменения применятся мгновенно.</p>
+                <h2>📋 Управление доступом</h2>
                 <div id="formsListTherapist" class="form-list"></div>
             </div>
             <div class="card">
-                <h2>📥 Ответы пациента (обновляются автоматически)</h2>
+                <h2>📥 Ответы пациента</h2>
                 <div id="responsesViewer">Загрузка...</div>
             </div>
-            <footer>Данные синхронизируются через Supabase в реальном времени.</footer>
         `;
 
-        // Рендер списка форм с переключателями
         const formsContainer = document.getElementById('formsListTherapist');
         formsCache.forEach(form => {
             const isAvail = availability[form.id] || false;
@@ -184,7 +196,7 @@
                         <input type="checkbox" data-id="${form.id}" ${isAvail ? 'checked' : ''}>
                     </div>
                 </div>
-                <p style="font-size:0.8rem; margin-top:8px;">${form.description || ''}</p>
+                <p>${form.description || ''}</p>
             `;
             formsContainer.appendChild(div);
             const checkbox = div.querySelector('input');
@@ -193,20 +205,19 @@
             });
         });
 
-        // Функция отображения ответов
         async function updateResponsesView() {
             const responses = await getAllResponses();
             const container = document.getElementById('responsesViewer');
             if (!container) return;
             if (responses.length === 0) {
-                container.innerHTML = '<p>Пока нет заполненных ответов.</p>';
+                container.innerHTML = '<p>Пока нет ответов.</p>';
                 return;
             }
             let html = '';
             for (let resp of responses) {
                 const formName = resp.forms?.name || resp.form_id;
                 html += `<div class="submissions">
-                            <strong>📄 ${formName}</strong>  (${new Date(resp.created_at).toLocaleString()})<br>`;
+                            <strong>📄 ${formName}</strong> (${new Date(resp.created_at).toLocaleString()})<br>`;
                 for (let [key, val] of Object.entries(resp.data)) {
                     if (val) html += `<span style="font-weight:500">${key}:</span> ${val}<br>`;
                 }
@@ -217,33 +228,23 @@
 
         await updateResponsesView();
 
-        // Подписка на изменения в таблице responses (реальное время)
-        const responsesSubscription = supabase
-            .channel('responses-changes')
-            .on('postgres_changes', { event: 'INSERT', schema: 'public', table: 'responses' }, () => {
-                updateResponsesView();
-            })
+        const responsesSub = supabase.channel('responses-changes')
+            .on('postgres_changes', { event: 'INSERT', schema: 'public', table: 'responses' }, () => updateResponsesView())
             .subscribe();
-
-        // Подписка на изменения availability
-        const availabilitySubscription = supabase
-            .channel('availability-changes')
-            .on('postgres_changes', { event: 'UPDATE', schema: 'public', table: 'availability' }, () => {
-                // перерисовываем интерфейс (чтобы обновить состояние переключателей)
-                renderTherapistDashboard();
-            })
+        const availSub = supabase.channel('availability-changes')
+            .on('postgres_changes', { event: 'UPDATE', schema: 'public', table: 'availability' }, () => renderTherapistDashboard())
             .subscribe();
 
         document.getElementById('logoutBtn').addEventListener('click', () => {
             currentRole = null;
             sessionStorage.removeItem('therapyRole');
-            responsesSubscription.unsubscribe();
-            availabilitySubscription.unsubscribe();
+            responsesSub.unsubscribe();
+            availSub.unsubscribe();
             renderLogin();
         });
     }
 
-    // --- Рендер для пациента ---
+    // Рендер пациента
     async function renderPatientDashboard() {
         const app = document.getElementById('app');
         app.innerHTML = `
@@ -252,19 +253,17 @@
                 <button id="logoutBtnPatient" class="btn-outline">Выйти</button>
             </div>
             <div class="card">
-                <p style="margin-bottom:1rem;">✅ Терапевт открывает новые формы. Они появятся здесь автоматически.</p>
                 <div id="patientFormsContainer"></div>
             </div>
-            <footer>Заполняйте листы после эпизодов. Данные сохраняются в облаке.</footer>
         `;
 
         const container = document.getElementById('patientFormsContainer');
         let availability = await getAvailability();
-        const availableForms = formsCache.filter(f => availability[f.id] === true);
+        let availableForms = formsCache.filter(f => availability[f.id] === true);
 
         function renderAvailableForms() {
             if (availableForms.length === 0) {
-                container.innerHTML = '<p>⏳ Пока нет доступных форм. Терапевт откроет их позже.</p>';
+                container.innerHTML = '<p>⏳ Нет доступных форм. Терапевт откроет их позже.</p>';
                 return;
             }
             container.innerHTML = '';
@@ -273,7 +272,7 @@
                 formCard.className = 'form-item';
                 formCard.style.marginBottom = '1.5rem';
                 formCard.innerHTML = `<h3>📋 ${form.name}</h3>
-                                      <p style="font-size:0.85rem;">${form.description || ''}</p>
+                                      <p>${form.description || ''}</p>
                                       <div id="form-${form.id}" class="form-grid"></div>
                                       <div class="form-actions"><button class="save-btn" data-id="${form.id}">💾 Сохранить ответ</button></div>`;
                 container.appendChild(formCard);
@@ -296,13 +295,11 @@
                         const input = fieldsContainer.querySelector(`[data-field="${field.name}"]`);
                         if (input) formData[field.name] = input.value;
                     });
-                    const hasContent = Object.values(formData).some(v => v && v.trim() !== '');
-                    if (!hasContent) {
-                        alert('Пожалуйста, заполните хотя бы одно поле.');
+                    if (Object.values(formData).every(v => !v || v.trim() === '')) {
+                        alert('Заполните хотя бы одно поле.');
                         return;
                     }
                     await addResponse(form.id, formData);
-                    // очищаем поля
                     fields.forEach(field => {
                         const input = fieldsContainer.querySelector(`[data-field="${field.name}"]`);
                         if (input) input.value = '';
@@ -313,13 +310,10 @@
 
         renderAvailableForms();
 
-        // Подписка на изменения availability (новые формы появляются автоматически)
-        const availabilitySubscription = supabase
-            .channel('availability-changes')
+        const availSub = supabase.channel('availability-changes')
             .on('postgres_changes', { event: '*', schema: 'public', table: 'availability' }, async () => {
                 availability = await getAvailability();
-                availableForms.length = 0;
-                availableForms.push(...formsCache.filter(f => availability[f.id] === true));
+                availableForms = formsCache.filter(f => availability[f.id] === true);
                 renderAvailableForms();
             })
             .subscribe();
@@ -327,12 +321,11 @@
         document.getElementById('logoutBtnPatient').addEventListener('click', () => {
             currentRole = null;
             sessionStorage.removeItem('therapyRole');
-            availabilitySubscription.unsubscribe();
+            availSub.unsubscribe();
             renderLogin();
         });
     }
 
-    // --- Экран входа ---
     function renderLogin() {
         const app = document.getElementById('app');
         app.innerHTML = `
@@ -342,7 +335,7 @@
                 <div class="form-grid">
                     <div class="field-group">
                         <label>Код доступа</label>
-                        <input type="password" id="accessCode" placeholder="Введите код: 1113 (терапевт) / 1 (пациент)">
+                        <input type="password" id="accessCode" placeholder="1113 (терапевт) / 1 (пациент)">
                     </div>
                     <div class="form-actions">
                         <button id="loginBtn">Войти</button>
@@ -356,23 +349,27 @@
             if (code === '1113') {
                 currentRole = 'therapist';
                 sessionStorage.setItem('therapyRole', 'therapist');
-                await loadForms();
-                renderTherapistDashboard();
+                const ok = await loadForms();
+                if (ok) renderTherapistDashboard();
             } else if (code === '1') {
                 currentRole = 'patient';
                 sessionStorage.setItem('therapyRole', 'patient');
-                await loadForms();
-                renderPatientDashboard();
+                const ok = await loadForms();
+                if (ok) renderPatientDashboard();
             } else {
-                alert('Неверный код доступа');
+                alert('Неверный код');
             }
         });
     }
 
-    // Старт приложения
+    // Старт
     (async () => {
         const savedRole = sessionStorage.getItem('therapyRole');
-        await loadForms();
+        const formsLoaded = await loadForms();
+        if (!formsLoaded) {
+            renderLogin(); // покажет ошибку на экране
+            return;
+        }
         if (savedRole === 'therapist') {
             currentRole = 'therapist';
             renderTherapistDashboard();
