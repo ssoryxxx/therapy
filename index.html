@@ -2,106 +2,352 @@
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Терапия ПРЛ+СДВГ</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>Психотерапия | Рабочие листы</title>
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        body {
-            font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
-            background: #f0f4f8;
-            color: #1e293b;
-            padding: 20px;
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
         }
-        .container { max-width: 1200px; margin: 0 auto; }
+
+        body {
+            font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, sans-serif;
+            background: linear-gradient(145deg, #eef2f9 0%, #d9e2ef 100%);
+            color: #1a2c3e;
+            padding: 24px;
+            min-height: 100vh;
+        }
+
+        /* подключение шрифта */
+        @import url('https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700&display=swap');
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        /* карточки с мягкой тенью и свечением */
         .card {
-            background: white;
-            border-radius: 24px;
-            box-shadow: 0 8px 20px rgba(0,0,0,0.05);
+            background: rgba(255, 255, 255, 0.96);
+            backdrop-filter: blur(0px);
+            border-radius: 32px;
+            box-shadow: 0 20px 35px -12px rgba(0, 0, 0, 0.1), 0 1px 2px rgba(0, 0, 0, 0.02);
             padding: 1.8rem;
             margin-bottom: 2rem;
+            transition: all 0.2s ease;
+            border: 1px solid rgba(255, 255, 255, 0.6);
         }
+
+        .card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 24px 40px -14px rgba(0, 0, 0, 0.15);
+        }
+
         .header {
             display: flex;
             justify-content: space-between;
             align-items: center;
             flex-wrap: wrap;
             gap: 1rem;
-            margin-bottom: 1.5rem;
+            margin-bottom: 1.8rem;
         }
-        h1 { font-size: 1.8rem; font-weight: 600; background: linear-gradient(135deg, #2c3e66, #4a6fa5); background-clip: text; -webkit-background-clip: text; color: transparent; }
-        h2 { font-size: 1.4rem; font-weight: 500; margin-bottom: 1rem; color: #0f3b5c; border-left: 5px solid #4a6fa5; padding-left: 1rem; }
+
+        h1 {
+            font-size: 1.8rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #1f4e7a, #3b82b6);
+            background-clip: text;
+            -webkit-background-clip: text;
+            color: transparent;
+            letter-spacing: -0.3px;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        h2 {
+            font-size: 1.4rem;
+            font-weight: 600;
+            margin-bottom: 1.2rem;
+            color: #0f3b5c;
+            border-left: 5px solid #3b82b6;
+            padding-left: 1rem;
+            letter-spacing: -0.2px;
+        }
+
         button {
-            background: #4a6fa5;
+            background: #3b82b6;
             border: none;
             color: white;
-            padding: 8px 18px;
+            padding: 8px 20px;
             border-radius: 40px;
             font-weight: 500;
             cursor: pointer;
-            transition: 0.2s;
+            transition: all 0.2s;
+            font-size: 0.9rem;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.05);
         }
-        button:hover { background: #2c3e66; }
+
+        button:hover {
+            background: #1f5e8c;
+            transform: scale(0.97);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+
         .btn-outline {
             background: transparent;
-            border: 1px solid #4a6fa5;
-            color: #4a6fa5;
+            border: 1px solid #3b82b6;
+            color: #1f5e8c;
+            box-shadow: none;
         }
-        .form-grid { display: flex; flex-direction: column; gap: 1.2rem; }
-        .field-group { display: flex; flex-direction: column; gap: 0.4rem; }
-        label { font-weight: 600; font-size: 0.9rem; color: #2d3e5f; }
-        input, textarea {
-            padding: 10px 14px;
-            border: 1px solid #cbd5e1;
-            border-radius: 16px;
+
+        .btn-outline:hover {
+            background: #eef4ff;
+            transform: scale(0.97);
+        }
+
+        .btn-danger {
+            background: #b91c1c;
+        }
+        .btn-danger:hover {
+            background: #991b1b;
+        }
+
+        .btn-warning {
+            background: #d97706;
+        }
+        .btn-warning:hover {
+            background: #b45309;
+        }
+
+        .form-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 1.2rem;
+        }
+
+        .field-group {
+            display: flex;
+            flex-direction: column;
+            gap: 0.4rem;
+        }
+
+        label {
+            font-weight: 600;
+            font-size: 0.85rem;
+            color: #2c4f6e;
+            letter-spacing: -0.2px;
+        }
+
+        input, textarea, select {
+            padding: 12px 16px;
+            border: 1px solid #cbdde9;
+            border-radius: 24px;
             font-family: inherit;
-            font-size: 0.9rem;
+            font-size: 0.95rem;
+            background: #ffffff;
+            transition: 0.2s;
         }
-        textarea { min-height: 70px; resize: vertical; }
-        .form-actions { display: flex; justify-content: flex-end; gap: 1rem; margin-top: 1rem; }
-        .toggle-switch { display: flex; align-items: center; gap: 0.8rem; }
+
+        input:focus, textarea:focus, select:focus {
+            outline: none;
+            border-color: #3b82b6;
+            box-shadow: 0 0 0 3px rgba(59,130,182,0.2);
+        }
+
+        textarea {
+            min-height: 80px;
+            resize: vertical;
+        }
+
+        .form-actions {
+            display: flex;
+            justify-content: flex-end;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .toggle-switch {
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+        }
+
         .toggle-switch input {
-            width: 40px; height: 20px; appearance: none; background: #cbd5e1; border-radius: 20px;
-            position: relative; cursor: pointer;
+            width: 44px;
+            height: 24px;
+            appearance: none;
+            background: #cbd5e1;
+            border-radius: 30px;
+            position: relative;
+            cursor: pointer;
         }
-        .toggle-switch input:checked { background: #4a6fa5; }
+
+        .toggle-switch input:checked {
+            background: #3b82b6;
+        }
+
         .toggle-switch input::before {
-            content: ''; width: 16px; height: 16px; background: white; border-radius: 50%;
-            position: absolute; top: 2px; left: 2px; transition: 0.2s;
+            content: '';
+            width: 20px;
+            height: 20px;
+            background: white;
+            border-radius: 50%;
+            position: absolute;
+            top: 2px;
+            left: 2px;
+            transition: 0.2s;
         }
-        .toggle-switch input:checked::before { left: 22px; }
-        .form-list { display: flex; flex-direction: column; gap: 1rem; }
+
+        .toggle-switch input:checked::before {
+            left: 22px;
+        }
+
+        .form-list {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
         .form-item {
-            background: #f8fafc;
-            border-radius: 20px;
-            padding: 1rem;
-            border: 1px solid #e2e8f0;
+            background: #ffffffea;
+            border-radius: 28px;
+            padding: 1.2rem;
+            border: 1px solid #e2edf5;
+            transition: 0.1s;
         }
-        .flex-between { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 0.5rem; }
-        .badge { background: #e2e8f0; padding: 4px 12px; border-radius: 30px; font-size: 0.75rem; font-weight: 500; }
+
+        .flex-between {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 0.8rem;
+        }
+
+        .badge {
+            background: #e2edf5;
+            padding: 4px 12px;
+            border-radius: 40px;
+            font-size: 0.7rem;
+            font-weight: 600;
+            color: #1f5e8c;
+        }
+
+        .table-responsive {
+            overflow-x: auto;
+            margin-top: 1rem;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: white;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+        }
+
+        th, td {
+            padding: 12px 12px;
+            text-align: left;
+            border-bottom: 1px solid #e9f0f5;
+        }
+
+        th {
+            background: #f4f9fe;
+            font-weight: 600;
+            color: #1f4e7a;
+        }
+
+        tr:hover {
+            background: #f9fdfe;
+        }
+
         .submissions {
-            background: #fefce8;
+            background: #fef9e6;
             border-left: 5px solid #eab308;
             margin-top: 0.8rem;
-            padding: 0.8rem;
-            border-radius: 16px;
+            padding: 0.9rem;
+            border-radius: 20px;
             font-size: 0.85rem;
         }
-        .login-screen { max-width: 450px; margin: 10vh auto; }
-        footer { text-align: center; margin-top: 2rem; font-size: 0.75rem; color: #6c7a91; }
-        .error-message {
-            background: #fee2e2;
-            color: #991b1b;
-            padding: 1rem;
-            border-radius: 16px;
-            margin-bottom: 1rem;
-            white-space: pre-wrap;
+
+        .login-screen {
+            max-width: 460px;
+            margin: 12vh auto;
         }
+
+        footer {
+            text-align: center;
+            margin-top: 2rem;
+            font-size: 0.75rem;
+            color: #4b6f8e;
+        }
+
+        .error-message {
+            background: #ffe6e5;
+            color: #b91c1c;
+            padding: 1rem;
+            border-radius: 28px;
+            margin-bottom: 1rem;
+            font-size: 0.9rem;
+        }
+
         .success-message {
-            background: #dcfce7;
+            background: #e0f2e9;
             color: #166534;
             padding: 1rem;
-            border-radius: 16px;
+            border-radius: 28px;
             margin-bottom: 1rem;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: rgba(0,0,0,0.4);
+            backdrop-filter: blur(6px);
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+
+        .modal-content {
+            background: white;
+            max-width: 650px;
+            width: 90%;
+            border-radius: 40px;
+            padding: 1.8rem;
+            max-height: 85vh;
+            overflow-y: auto;
+            box-shadow: 0 30px 40px -20px rgba(0,0,0,0.3);
+        }
+
+        .field-row {
+            display: flex;
+            gap: 0.6rem;
+            align-items: center;
+            margin-bottom: 0.8rem;
+            flex-wrap: wrap;
+        }
+
+        .field-row input { flex: 2; }
+        .field-row select { flex: 1; }
+        .field-row button { flex-shrink: 0; }
+
+        @media (max-width: 700px) {
+            .card { padding: 1.2rem; }
+            .field-row { flex-direction: column; align-items: stretch; }
+            .field-row button { align-self: flex-start; }
+        }
+
+        .icon-badge {
+            font-size: 1.2rem;
+            vertical-align: middle;
+            margin-right: 6px;
         }
     </style>
 </head>
@@ -110,101 +356,137 @@
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
-    // --- Функция для показа ошибок на экране ---
-    function showError(msg) {
-        const app = document.getElementById('app');
-        const errDiv = document.createElement('div');
-        errDiv.className = 'error-message';
-        errDiv.innerHTML = `⚠️ <strong>Ошибка:</strong><br>${msg}`;
-        app.prepend(errDiv);
-        console.error(msg);
-    }
-
-    // --- Базовые данные Supabase ---
+    // --- Supabase config ---
     const SUPABASE_URL = "https://jnfhgnikpgpyeudlrdpe.supabase.co";
     const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImpuZmhnbmlrcGdweWV1ZGxyZHBlIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzQ5NDY3NjEsImV4cCI6MjA5MDUyMjc2MX0.7FsplRzp0dgYagixZnAHvH_Hl2OFZFUi5qvlU04roIg";
 
-    let supabaseClient = null;
-    let currentRole = null; // 'therapist' или 'patient'
+    let supabase = null;
+    let currentRole = null;
     let formsCache = [];
 
-    // --- Инициализация клиента Supabase ---
-    function initSupabase() {
+    // --- helpers ---
+    function showError(msg) {
+        const app = document.getElementById('app');
+        const err = document.createElement('div');
+        err.className = 'error-message';
+        err.innerHTML = `⚠️ ${msg}`;
+        app.prepend(err);
+        setTimeout(() => err.remove(), 5000);
+        console.error(msg);
+    }
+
+    function showSuccess(msg) {
+        const app = document.getElementById('app');
+        const succ = document.createElement('div');
+        succ.className = 'success-message';
+        succ.innerHTML = `✅ ${msg}`;
+        app.prepend(succ);
+        setTimeout(() => succ.remove(), 3000);
+    }
+
+    async function initSupabase() {
         try {
-            supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+            supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+            await supabase.from('forms').select('count', { head: true });
             return true;
         } catch(e) {
-            showError("Не удалось создать клиент Supabase: " + e.message);
+            showError("Не удалось подключиться к Supabase. Проверьте интернет и настройки CORS.");
             return false;
         }
     }
 
-    // --- Загрузка списка форм из Supabase ---
     async function loadForms() {
-        if (!supabaseClient) return false;
-        try {
-            const { data, error } = await supabaseClient.from('forms').select('*');
-            if (error) {
-                showError(`Ошибка загрузки форм: ${error.message}`);
-                return false;
-            }
-            if (!data || data.length === 0) {
-                showError("Таблица 'forms' пуста. Выполните SQL-скрипт.");
-                return false;
-            }
-            formsCache = data;
-            return true;
-        } catch(e) {
-            showError(`Исключение при загрузке форм: ${e.message}`);
-            return false;
-        }
-    }
-
-    // --- Получить доступность форм ---
-    async function getAvailability() {
-        if (!supabaseClient) return {};
-        const { data, error } = await supabaseClient.from('availability').select('*');
-        if (error) {
-            showError(`Ошибка получения доступности: ${error.message}`);
-            return {};
-        }
-        const obj = {};
-        data.forEach(row => { obj[row.form_id] = row.is_available; });
-        return obj;
-    }
-
-    // --- Установить доступность (только терапевт) ---
-    async function setAvailability(formId, isAvailable) {
-        if (!supabaseClient) return;
-        const { error } = await supabaseClient
-            .from('availability')
-            .upsert({ form_id: formId, is_available: isAvailable }, { onConflict: 'form_id' });
-        if (error) showError(`Ошибка обновления доступности: ${error.message}`);
-    }
-
-    // --- Сохранить ответ пациента ---
-    async function addResponse(formId, dataObj) {
-        if (!supabaseClient) return false;
-        const { error } = await supabaseClient.from('responses').insert({ form_id: formId, data: dataObj });
-        if (error) {
-            showError(`Ошибка сохранения: ${error.message}`);
-            return false;
-        }
+        const { data, error } = await supabase.from('forms').select('*');
+        if (error) { showError(`Ошибка загрузки форм: ${error.message}`); return false; }
+        formsCache = data || [];
+        if (formsCache.length === 0) showError("Нет форм. Создайте первую форму через интерфейс терапевта.");
         return true;
     }
 
-    // --- Получить все ответы (для терапевта) ---
+    async function getAvailability() {
+        const { data, error } = await supabase.from('availability').select('*');
+        if (error) return {};
+        const obj = {};
+        data.forEach(row => obj[row.form_id] = row.is_available);
+        return obj;
+    }
+
+    async function setAvailability(formId, isAvailable) {
+        const { error } = await supabase.from('availability').upsert({ form_id: formId, is_available: isAvailable }, { onConflict: 'form_id' });
+        if (error) showError(`Ошибка: ${error.message}`);
+    }
+
+    async function addResponse(formId, dataObj) {
+        const { error } = await supabase.from('responses').insert({ form_id: formId, data: dataObj });
+        if (error) { showError(`Ошибка сохранения: ${error.message}`); return false; }
+        return true;
+    }
+
     async function getAllResponses() {
-        if (!supabaseClient) return [];
-        const { data, error } = await supabaseClient
-            .from('responses')
-            .select('*, forms(name)')
-            .order('created_at', { ascending: false });
-        if (error) {
-            showError(`Ошибка загрузки ответов: ${error.message}`);
-            return [];
-        }
+        const { data, error } = await supabase.from('responses').select('*, forms(name, fields, is_table)').order('created_at', { ascending: false });
+        if (error) { showError(`Ошибка загрузки ответов: ${error.message}`); return []; }
         return data;
+    }
+
+    async function createForm(name, description, fields, isTable) {
+        const { error } = await supabase.from('forms').insert({ name, description, fields, is_table: isTable });
+        if (error) { showError(`Ошибка создания формы: ${error.message}`); return false; }
+        return true;
+    }
+
+    async function deleteForm(formId) {
+        const { error } = await supabase.from('forms').delete().eq('id', formId);
+        if (error) { showError(`Ошибка удаления: ${error.message}`); return false; }
+        return true;
+    }
+
+    async function clearAllResponses() {
+        if (!confirm("⚠️ ВНИМАНИЕ! Это удалит ВСЕ ответы пациента по всем формам. Отменить будет невозможно. Продолжить?")) return;
+        const { error } = await supabase.from('responses').delete().neq('id', 0);
+        if (error) { showError(`Ошибка очистки: ${error.message}`); return false; }
+        showSuccess("Все ответы удалены");
+        return true;
+    }
+
+    async function clearResponsesForForm(formId) {
+        const form = formsCache.find(f => f.id === formId);
+        if (!confirm(`Удалить все ответы по форме "${form.name}"?`)) return;
+        const { error } = await supabase.from('responses').delete().eq('form_id', formId);
+        if (error) { showError(`Ошибка очистки: ${error.message}`); return false; }
+        showSuccess(`Ответы по форме "${form.name}" удалены`);
+        return true;
+    }
+
+    function renderResponsesTable(responses, form) {
+        if (!responses.length) return '<p>Нет ответов.</p>';
+        const fields = form.fields || [];
+        if (form.is_table) {
+            let html = '<div class="table-responsive"><table><thead><tr><th>📅 Дата</th>';
+            fields.forEach(f => html += `<th>${f.label}</th>`);
+            html += '</tr></thead><tbody>';
+            responses.forEach(resp => {
+                html += `<tr><td>${new Date(resp.created_at).toLocaleString()}</td>`;
+                fields.forEach(f => {
+                    let val = resp.data[f.name] || '';
+                    html += `<td>${val}</td>`;
+                });
+                html += '</tr>';
+            });
+            html += '</tbody></table></div>';
+            return html;
+        } else {
+            let html = '';
+            responses.forEach(resp => {
+                html += `<div class="submissions" style="margin-bottom: 0.8rem;">
+                            <strong>${new Date(resp.created_at).toLocaleString()}</strong><br>`;
+                fields.forEach(f => {
+                    let val = resp.data[f.name];
+                    if (val) html += `<span style="font-weight:500">${f.label}:</span> ${val}<br>`;
+                });
+                html += `</div>`;
+            });
+            return html;
+        }
     }
 
     // --- Панель терапевта ---
@@ -213,45 +495,65 @@
         const availability = await getAvailability();
         app.innerHTML = `
             <div class="header">
-                <h1>🧑‍⚕️ Режим терапевта</h1>
-                <button id="logoutBtn" class="btn-outline">Выйти</button>
+                <h1>🧑‍⚕️ Психотерапия и заполнение рабочих листов</h1>
+                <div>
+                    <button id="clearAllBtn" class="btn-warning" style="margin-right: 0.5rem;">🧹 Очистить все ответы</button>
+                    <button id="createFormBtn" style="margin-right: 0.5rem;">➕ Создать форму</button>
+                    <button id="logoutBtn" class="btn-outline">Выйти</button>
+                </div>
             </div>
             <div class="card">
-                <h2>📋 Управление доступом</h2>
+                <h2>📋 Управление формами (сессионные листы)</h2>
                 <div id="formsList"></div>
             </div>
             <div class="card">
-                <h2>📥 Ответы пациента</h2>
+                <h2>📥 Все ответы пациента</h2>
                 <div id="responsesViewer">Загрузка...</div>
             </div>
-            <footer>Данные синхронизируются через Supabase</footer>
+            <footer>Данные синхронизируются через Supabase. Названия форм рекомендуется указывать с номером сессии: "1 сессия — Дневник гнева"</footer>
         `;
 
-        // Список форм с переключателями
         const formsContainer = document.getElementById('formsList');
+        formsContainer.innerHTML = '';
         for (let form of formsCache) {
             const isAvail = availability[form.id] || false;
             const div = document.createElement('div');
             div.className = 'form-item';
             div.innerHTML = `
                 <div class="flex-between">
-                    <div><strong>${form.name}</strong><div class="badge">${form.id}</div></div>
-                    <div class="toggle-switch">
-                        <span>Доступна</span>
-                        <input type="checkbox" data-id="${form.id}" ${isAvail ? 'checked' : ''}>
+                    <div><strong>${form.name}</strong> <span class="badge">${form.is_table ? '📊 Таблица' : '📄 Анкета'}</span></div>
+                    <div style="display: flex; gap: 0.5rem;">
+                        <div class="toggle-switch">
+                            <span>Доступна</span>
+                            <input type="checkbox" data-id="${form.id}" ${isAvail ? 'checked' : ''}>
+                        </div>
+                        <button class="clear-form-responses btn-warning" data-id="${form.id}" style="padding: 4px 12px;">🧹 Очистить ответы</button>
+                        <button class="delete-form btn-danger" data-id="${form.id}" style="padding: 4px 12px;">🗑️</button>
                     </div>
                 </div>
-                <p style="font-size:0.8rem;">${form.description || ''}</p>
+                <p style="font-size:0.8rem; margin-top:8px;">${form.description || ''}</p>
             `;
             formsContainer.appendChild(div);
             const chk = div.querySelector('input');
             chk.addEventListener('change', async (e) => {
                 await setAvailability(form.id, e.target.checked);
             });
+            const clearBtn = div.querySelector('.clear-form-responses');
+            clearBtn.addEventListener('click', async () => {
+                await clearResponsesForForm(form.id);
+                updateResponsesView();
+            });
+            const delBtn = div.querySelector('.delete-form');
+            delBtn.addEventListener('click', async () => {
+                if (confirm(`Удалить форму "${form.name}"? Все ответы также будут удалены.`)) {
+                    await deleteForm(form.id);
+                    await loadForms();
+                    renderTherapist();
+                }
+            });
         }
 
-        // Загрузка и отображение ответов
-        async function updateResponses() {
+        async function updateResponsesView() {
             const responses = await getAllResponses();
             const container = document.getElementById('responsesViewer');
             if (!container) return;
@@ -259,26 +561,34 @@
                 container.innerHTML = '<p>Пока нет ответов.</p>';
                 return;
             }
+            const grouped = {};
+            for (let resp of responses) grouped[resp.form_id] = grouped[resp.form_id] || [];
+            for (let resp of responses) grouped[resp.form_id].push(resp);
             let html = '';
-            for (let resp of responses) {
-                const formName = resp.forms?.name || resp.form_id;
-                html += `<div class="submissions">
-                            <strong>📄 ${formName}</strong> (${new Date(resp.created_at).toLocaleString()})<br>`;
-                for (let [key, val] of Object.entries(resp.data)) {
-                    if (val) html += `<span style="font-weight:500">${key}:</span> ${val}<br>`;
-                }
+            for (let form of formsCache) {
+                const formResponses = grouped[form.id] || [];
+                if (formResponses.length === 0) continue;
+                html += `<div style="margin-bottom: 2rem;"><h3>📄 ${form.name}</h3>`;
+                html += renderResponsesTable(formResponses, form);
                 html += `</div>`;
             }
+            if (html === '') html = '<p>Нет ответов ни по одной форме.</p>';
             container.innerHTML = html;
         }
-        await updateResponses();
+        await updateResponsesView();
 
-        // Подписка на изменения в реальном времени
-        const responsesSub = supabaseClient.channel('responses-changes')
-            .on('postgres_changes', { event: 'INSERT', schema: 'public', table: 'responses' }, () => updateResponses())
+        const responsesSub = supabase.channel('responses-changes')
+            .on('postgres_changes', { event: 'INSERT', schema: 'public', table: 'responses' }, () => updateResponsesView())
+            .on('postgres_changes', { event: 'DELETE', schema: 'public', table: 'responses' }, () => updateResponsesView())
             .subscribe();
-        const availSub = supabaseClient.channel('availability-changes')
+        const availSub = supabase.channel('availability-changes')
             .on('postgres_changes', { event: 'UPDATE', schema: 'public', table: 'availability' }, () => renderTherapist())
+            .subscribe();
+        const formsSub = supabase.channel('forms-changes')
+            .on('postgres_changes', { event: '*', schema: 'public', table: 'forms' }, async () => {
+                await loadForms();
+                renderTherapist();
+            })
             .subscribe();
 
         document.getElementById('logoutBtn').addEventListener('click', () => {
@@ -286,93 +596,240 @@
             sessionStorage.removeItem('therapyRole');
             responsesSub.unsubscribe();
             availSub.unsubscribe();
+            formsSub.unsubscribe();
             renderLogin();
         });
+        document.getElementById('clearAllBtn').addEventListener('click', async () => {
+            await clearAllResponses();
+            updateResponsesView();
+        });
+        document.getElementById('createFormBtn').addEventListener('click', () => showCreateFormModal());
     }
 
-    // --- Панель пациента ---
+    function showCreateFormModal() {
+        const modal = document.createElement('div');
+        modal.className = 'modal';
+        modal.innerHTML = `
+            <div class="modal-content">
+                <h3 style="margin-bottom: 1rem;">➕ Создать новую форму</h3>
+                <div class="form-grid">
+                    <div class="field-group">
+                        <label>Название формы (с номером сессии)</label>
+                        <input id="formName" placeholder="Пример: 1 сессия — Дневник гнева">
+                    </div>
+                    <div class="field-group">
+                        <label>Описание (необязательно)</label>
+                        <textarea id="formDesc" rows="2" placeholder="Краткое описание для пациента"></textarea>
+                    </div>
+                    <div class="field-group">
+                        <label>Тип формы</label>
+                        <select id="formType">
+                            <option value="false">📄 Анкета (отдельные записи)</option>
+                            <option value="true">📊 Таблица (дневник с историей)</option>
+                        </select>
+                    </div>
+                    <div class="field-group">
+                        <label>Поля формы</label>
+                        <div id="fieldsList"></div>
+                        <button type="button" id="addFieldBtn" class="btn-outline" style="margin-top: 0.5rem;">+ Добавить поле</button>
+                    </div>
+                    <div class="form-actions">
+                        <button id="saveFormBtn">Создать</button>
+                        <button id="cancelModalBtn" class="btn-outline">Отмена</button>
+                    </div>
+                </div>
+            </div>
+        `;
+        document.body.appendChild(modal);
+        modal.style.display = 'flex';
+
+        let fields = [];
+
+        function renderFields() {
+            const container = document.getElementById('fieldsList');
+            container.innerHTML = '';
+            fields.forEach((f, idx) => {
+                const div = document.createElement('div');
+                div.className = 'field-row';
+                div.innerHTML = `
+                    <input type="text" placeholder="Имя поля (латиницей, без пробелов)" value="${f.name}" style="flex:2">
+                    <input type="text" placeholder="Метка (отображаемый текст)" value="${f.label}" style="flex:3">
+                    <select style="flex:1">
+                        <option value="text" ${f.type === 'text' ? 'selected' : ''}>Текст</option>
+                        <option value="textarea" ${f.type === 'textarea' ? 'selected' : ''}>Многострочный</option>
+                        <option value="number" ${f.type === 'number' ? 'selected' : ''}>Число</option>
+                    </select>
+                    <button class="btn-outline remove-field" data-idx="${idx}" style="padding: 4px 10px;">✖️</button>
+                `;
+                container.appendChild(div);
+                const nameInput = div.querySelector('input:first-child');
+                const labelInput = div.querySelector('input:nth-child(2)');
+                const typeSelect = div.querySelector('select');
+                nameInput.addEventListener('input', (e) => fields[idx].name = e.target.value);
+                labelInput.addEventListener('input', (e) => fields[idx].label = e.target.value);
+                typeSelect.addEventListener('change', (e) => fields[idx].type = e.target.value);
+                div.querySelector('.remove-field').addEventListener('click', () => {
+                    fields.splice(idx, 1);
+                    renderFields();
+                });
+            });
+        }
+
+        document.getElementById('addFieldBtn').addEventListener('click', () => {
+            fields.push({ name: 'field' + (fields.length+1), label: 'Новое поле', type: 'text' });
+            renderFields();
+        });
+
+        document.getElementById('saveFormBtn').addEventListener('click', async () => {
+            const name = document.getElementById('formName').value.trim();
+            const desc = document.getElementById('formDesc').value;
+            const isTable = document.getElementById('formType').value === 'true';
+            if (!name) { alert('Введите название формы (рекомендуется указывать номер сессии)'); return; }
+            if (fields.length === 0) { alert('Добавьте хотя бы одно поле'); return; }
+            const namesSet = new Set();
+            for (let f of fields) {
+                if (!f.name || !f.label) { alert('Заполните имена и метки полей'); return; }
+                if (namesSet.has(f.name)) { alert(`Имя поля "${f.name}" повторяется. Используйте уникальные имена (латиница).`); return; }
+                namesSet.add(f.name);
+            }
+            const ok = await createForm(name, desc, fields, isTable);
+            if (ok) {
+                modal.remove();
+                await loadForms();
+                renderTherapist();
+                showSuccess(`Форма "${name}" создана`);
+            }
+        });
+        document.getElementById('cancelModalBtn').addEventListener('click', () => modal.remove());
+        renderFields();
+    }
+
+    // --- Пациентская панель ---
     async function renderPatient() {
         const app = document.getElementById('app');
         const availability = await getAvailability();
         const availableForms = formsCache.filter(f => availability[f.id] === true);
         app.innerHTML = `
             <div class="header">
-                <h1>📝 Мои домашние задания</h1>
+                <h1>📝 Психотерапия и заполнение рабочих листов</h1>
                 <button id="logoutBtnPatient" class="btn-outline">Выйти</button>
             </div>
             <div class="card">
                 <div id="patientFormsContainer"></div>
             </div>
-            <footer>Данные сохраняются в облаке и видны терапевту.</footer>
+            <footer>Данные сохраняются в облаке и видны терапевту. Формы открываются по мере прохождения сессий.</footer>
         `;
 
         const container = document.getElementById('patientFormsContainer');
         if (availableForms.length === 0) {
             container.innerHTML = '<p>⏳ Нет доступных форм. Терапевт откроет их позже.</p>';
-        } else {
-            for (let form of availableForms) {
-                const formCard = document.createElement('div');
-                formCard.className = 'form-item';
-                formCard.style.marginBottom = '1.5rem';
-                formCard.innerHTML = `<h3>📋 ${form.name}</h3>
-                                      <p style="font-size:0.85rem;">${form.description || ''}</p>
-                                      <div id="form-${form.id}" class="form-grid"></div>
-                                      <div class="form-actions"><button class="save-btn" data-id="${form.id}">💾 Сохранить ответ</button></div>`;
-                container.appendChild(formCard);
-                const fieldsContainer = formCard.querySelector(`#form-${form.id}`);
-                const fields = form.fields || [];
-                fields.forEach(field => {
-                    const div = document.createElement('div');
-                    div.className = 'field-group';
-                    div.innerHTML = `<label>${field.label}</label>
-                                     <${field.type === 'textarea' ? 'textarea' : 'input'} 
-                                        data-field="${field.name}" 
-                                        ${field.type !== 'textarea' ? `type="${field.type}"` : ''}
-                                        placeholder="${field.placeholder || ''}"></${field.type === 'textarea' ? 'textarea' : 'input'}>`;
-                    fieldsContainer.appendChild(div);
-                });
-                const saveBtn = formCard.querySelector('.save-btn');
-                saveBtn.addEventListener('click', async () => {
-                    const formData = {};
-                    fields.forEach(field => {
-                        const input = fieldsContainer.querySelector(`[data-field="${field.name}"]`);
-                        if (input) formData[field.name] = input.value;
-                    });
-                    if (Object.values(formData).every(v => !v || v.trim() === '')) {
-                        alert('Заполните хотя бы одно поле.');
-                        return;
-                    }
-                    const ok = await addResponse(form.id, formData);
-                    if (ok) {
-                        fields.forEach(field => {
-                            const input = fieldsContainer.querySelector(`[data-field="${field.name}"]`);
-                            if (input) input.value = '';
-                        });
-                        alert('✅ Ответ сохранён!');
-                    }
-                });
-            }
+            document.getElementById('logoutBtnPatient').addEventListener('click', () => { currentRole = null; sessionStorage.removeItem('therapyRole'); renderLogin(); });
+            return;
         }
 
-        const availSub = supabaseClient.channel('availability-changes')
-            .on('postgres_changes', { event: '*', schema: 'public', table: 'availability' }, () => renderPatient())
-            .subscribe();
+        for (let form of availableForms) {
+            const formCard = document.createElement('div');
+            formCard.className = 'form-item';
+            formCard.style.marginBottom = '2rem';
+            formCard.innerHTML = `<h3>${form.is_table ? '📊' : '📄'} ${form.name}</h3>
+                                  <p style="font-size:0.85rem; margin-bottom: 1rem;">${form.description || ''}</p>
+                                  <div id="form-${form.id}" class="form-grid" style="margin-top: 0.5rem;"></div>
+                                  <div class="form-actions"><button class="save-btn" data-id="${form.id}">💾 Сохранить ответ</button></div>
+                                  <div class="history-title" style="margin-top: 1.5rem; font-weight: 500;">📅 Мои предыдущие записи:</div>
+                                  <div id="history-${form.id}"></div>`;
+            container.appendChild(formCard);
+            const fieldsContainer = formCard.querySelector(`#form-${form.id}`);
+            const fields = form.fields || [];
+            fields.forEach(field => {
+                const div = document.createElement('div');
+                div.className = 'field-group';
+                div.innerHTML = `<label>${field.label}</label>
+                                 <${field.type === 'textarea' ? 'textarea' : 'input'} 
+                                    data-field="${field.name}" 
+                                    ${field.type !== 'textarea' ? `type="${field.type}"` : ''}
+                                    placeholder="${field.placeholder || ''}"></${field.type === 'textarea' ? 'textarea' : 'input'}>`;
+                fieldsContainer.appendChild(div);
+            });
+
+            async function loadHistory(formId, historyDiv) {
+                const { data, error } = await supabase.from('responses').select('*').eq('form_id', formId).order('created_at', { ascending: false });
+                if (error) { historyDiv.innerHTML = '<p>Ошибка загрузки истории</p>'; return; }
+                if (data.length === 0) { historyDiv.innerHTML = '<p>Пока нет записей.</p>'; return; }
+                if (form.is_table) {
+                    let html = '<div class="table-responsive"><table><thead><tr><th>📅 Дата</th>';
+                    form.fields.forEach(f => html += `<th>${f.label}</th>`);
+                    html += '</tr></thead><tbody>';
+                    data.forEach(resp => {
+                        html += `<tr><td>${new Date(resp.created_at).toLocaleString()}</td>`;
+                        form.fields.forEach(f => {
+                            let val = resp.data[f.name] || '';
+                            html += `<td>${val}</td>`;
+                        });
+                        html += '</tr>';
+                    });
+                    html += '</tbody></table></div>';
+                    historyDiv.innerHTML = html;
+                } else {
+                    let html = '';
+                    data.forEach(resp => {
+                        html += `<div class="submissions" style="margin-top: 0.5rem;">
+                                    <strong>${new Date(resp.created_at).toLocaleString()}</strong><br>`;
+                        form.fields.forEach(f => {
+                            let val = resp.data[f.name];
+                            if (val) html += `<span style="font-weight:500">${f.label}:</span> ${val}<br>`;
+                        });
+                        html += `</div>`;
+                    });
+                    historyDiv.innerHTML = html;
+                }
+            }
+
+            const historyDiv = formCard.querySelector(`#history-${form.id}`);
+            loadHistory(form.id, historyDiv);
+
+            const saveBtn = formCard.querySelector('.save-btn');
+            saveBtn.addEventListener('click', async () => {
+                const formData = {};
+                fields.forEach(field => {
+                    const input = fieldsContainer.querySelector(`[data-field="${field.name}"]`);
+                    if (input) formData[field.name] = input.value;
+                });
+                if (Object.values(formData).every(v => !v || v.trim() === '')) {
+                    alert('Заполните хотя бы одно поле.');
+                    return;
+                }
+                const ok = await addResponse(form.id, formData);
+                if (ok) {
+                    fields.forEach(field => {
+                        const input = fieldsContainer.querySelector(`[data-field="${field.name}"]`);
+                        if (input) input.value = '';
+                    });
+                    showSuccess('Ответ сохранён!');
+                    loadHistory(form.id, historyDiv);
+                }
+            });
+
+            const historySub = supabase.channel(`history-${form.id}`)
+                .on('postgres_changes', { event: 'INSERT', schema: 'public', table: 'responses', filter: `form_id=eq.${form.id}` }, () => loadHistory(form.id, historyDiv))
+                .on('postgres_changes', { event: 'DELETE', schema: 'public', table: 'responses', filter: `form_id=eq.${form.id}` }, () => loadHistory(form.id, historyDiv))
+                .subscribe();
+            formCard.historySub = historySub;
+        }
 
         document.getElementById('logoutBtnPatient').addEventListener('click', () => {
             currentRole = null;
             sessionStorage.removeItem('therapyRole');
-            availSub.unsubscribe();
             renderLogin();
         });
     }
 
-    // --- Экран входа (без показа паролей) ---
+    // --- Экран входа (обновлённый заголовок) ---
     function renderLogin() {
         const app = document.getElementById('app');
         app.innerHTML = `
             <div class="login-screen card">
-                <h1 style="text-align:center">Терапия ПРЛ+СДВГ</h1>
-                <p style="text-align:center; margin-bottom:2rem;">Введите код доступа</p>
+                <h1 style="text-align:center; display:block; margin-bottom:0.5rem;">🧠 Психотерапия и заполнение рабочих листов</h1>
+                <p style="text-align:center; margin-bottom:2rem; color:#2c5a7a;">Введите код доступа</p>
                 <div class="form-grid">
                     <div class="field-group">
                         <label>Код</label>
@@ -389,14 +846,14 @@
             if (code === '1113') {
                 currentRole = 'therapist';
                 sessionStorage.setItem('therapyRole', 'therapist');
-                const formsLoaded = await loadForms();
-                if (formsLoaded) renderTherapist();
-                else renderLogin(); // остаёмся на входе, ошибка уже показана
+                const ok = await loadForms();
+                if (ok) renderTherapist();
+                else renderLogin();
             } else if (code === '1') {
                 currentRole = 'patient';
                 sessionStorage.setItem('therapyRole', 'patient');
-                const formsLoaded = await loadForms();
-                if (formsLoaded) renderPatient();
+                const ok = await loadForms();
+                if (ok) renderPatient();
                 else renderLogin();
             } else {
                 alert('Неверный код');
@@ -404,32 +861,25 @@
         });
     }
 
-    // --- Запуск ---
-    function start() {
-        if (!initSupabase()) {
-            showError("Не удалось инициализировать Supabase. Проверьте интернет и URL/ключ.");
+    // --- Старт ---
+    (async () => {
+        if (!await initSupabase()) {
             renderLogin();
             return;
         }
         const savedRole = sessionStorage.getItem('therapyRole');
         if (savedRole === 'therapist') {
             currentRole = 'therapist';
-            loadForms().then(ok => {
-                if (ok) renderTherapist();
-                else renderLogin();
-            });
+            await loadForms();
+            renderTherapist();
         } else if (savedRole === 'patient') {
             currentRole = 'patient';
-            loadForms().then(ok => {
-                if (ok) renderPatient();
-                else renderLogin();
-            });
+            await loadForms();
+            renderPatient();
         } else {
             renderLogin();
         }
-    }
-
-    start();
+    })();
 </script>
 </body>
 </html>
