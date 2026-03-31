@@ -2,39 +2,33 @@
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-    <title>Психотерапия | Рабочие листы</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Психотерапия и рабочие листы</title>
     <style>
-        /* базовый сброс и шрифты без внешних зависимостей */
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
-
         body {
-            font-family: system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
             background: linear-gradient(145deg, #eef2f9 0%, #d9e2ef 100%);
             color: #1a2c3e;
             padding: 24px;
             min-height: 100vh;
         }
-
         .container {
             max-width: 1400px;
             margin: 0 auto;
         }
-
         .card {
             background: rgba(255, 255, 255, 0.96);
             border-radius: 32px;
-            box-shadow: 0 20px 35px -12px rgba(0, 0, 0, 0.1), 0 1px 2px rgba(0, 0, 0, 0.02);
+            box-shadow: 0 20px 35px -12px rgba(0,0,0,0.1);
             padding: 1.8rem;
             margin-bottom: 2rem;
-            transition: all 0.2s ease;
-            border: 1px solid rgba(255, 255, 255, 0.6);
+            border: 1px solid rgba(255,255,255,0.6);
         }
-
         .header {
             display: flex;
             justify-content: space-between;
@@ -43,7 +37,6 @@
             gap: 1rem;
             margin-bottom: 1.8rem;
         }
-
         h1 {
             font-size: 1.8rem;
             font-weight: 700;
@@ -51,12 +44,7 @@
             background-clip: text;
             -webkit-background-clip: text;
             color: transparent;
-            letter-spacing: -0.3px;
-            display: inline-flex;
-            align-items: center;
-            gap: 10px;
         }
-
         h2 {
             font-size: 1.4rem;
             font-weight: 600;
@@ -65,7 +53,6 @@
             border-left: 5px solid #3b82b6;
             padding-left: 1rem;
         }
-
         button {
             background: #3b82b6;
             border: none;
@@ -74,201 +61,63 @@
             border-radius: 40px;
             font-weight: 500;
             cursor: pointer;
-            transition: all 0.2s;
+            transition: 0.2s;
             font-size: 0.9rem;
         }
-
         button:hover {
             background: #1f5e8c;
             transform: scale(0.97);
         }
-
         .btn-outline {
             background: transparent;
             border: 1px solid #3b82b6;
             color: #1f5e8c;
         }
-
         .btn-outline:hover {
             background: #eef4ff;
         }
-
-        .btn-danger {
-            background: #b91c1c;
-        }
-        .btn-danger:hover {
-            background: #991b1b;
-        }
-
-        .btn-warning {
-            background: #d97706;
-        }
-        .btn-warning:hover {
-            background: #b45309;
-        }
-
         .form-grid {
             display: flex;
             flex-direction: column;
             gap: 1.2rem;
         }
-
         .field-group {
             display: flex;
             flex-direction: column;
             gap: 0.4rem;
         }
-
         label {
             font-weight: 600;
             font-size: 0.85rem;
             color: #2c4f6e;
         }
-
         input, textarea, select {
             padding: 12px 16px;
             border: 1px solid #cbdde9;
             border-radius: 24px;
             font-family: inherit;
             font-size: 0.95rem;
-            background: #ffffff;
-            transition: 0.2s;
+            background: #fff;
         }
-
         input:focus, textarea:focus, select:focus {
             outline: none;
             border-color: #3b82b6;
             box-shadow: 0 0 0 3px rgba(59,130,182,0.2);
         }
-
         textarea {
             min-height: 80px;
             resize: vertical;
         }
-
         .form-actions {
             display: flex;
             justify-content: flex-end;
             gap: 1rem;
             margin-top: 1rem;
         }
-
-        .toggle-switch {
-            display: flex;
-            align-items: center;
-            gap: 0.8rem;
-        }
-
-        .toggle-switch input {
-            width: 44px;
-            height: 24px;
-            appearance: none;
-            background: #cbd5e1;
-            border-radius: 30px;
-            position: relative;
-            cursor: pointer;
-        }
-
-        .toggle-switch input:checked {
-            background: #3b82b6;
-        }
-
-        .toggle-switch input::before {
-            content: '';
-            width: 20px;
-            height: 20px;
-            background: white;
-            border-radius: 50%;
-            position: absolute;
-            top: 2px;
-            left: 2px;
-            transition: 0.2s;
-        }
-
-        .toggle-switch input:checked::before {
-            left: 22px;
-        }
-
-        .form-list {
-            display: flex;
-            flex-direction: column;
-            gap: 1rem;
-        }
-
-        .form-item {
-            background: #ffffffea;
-            border-radius: 28px;
-            padding: 1.2rem;
-            border: 1px solid #e2edf5;
-        }
-
-        .flex-between {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            flex-wrap: wrap;
-            gap: 0.8rem;
-        }
-
-        .badge {
-            background: #e2edf5;
-            padding: 4px 12px;
-            border-radius: 40px;
-            font-size: 0.7rem;
-            font-weight: 600;
-            color: #1f5e8c;
-        }
-
-        .table-responsive {
-            overflow-x: auto;
-            margin-top: 1rem;
-        }
-
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            background: white;
-            border-radius: 20px;
-            overflow: hidden;
-        }
-
-        th, td {
-            padding: 12px 12px;
-            text-align: left;
-            border-bottom: 1px solid #e9f0f5;
-        }
-
-        th {
-            background: #f4f9fe;
-            font-weight: 600;
-            color: #1f4e7a;
-        }
-
-        tr:hover {
-            background: #f9fdfe;
-        }
-
-        .submissions {
-            background: #fef9e6;
-            border-left: 5px solid #eab308;
-            margin-top: 0.8rem;
-            padding: 0.9rem;
-            border-radius: 20px;
-            font-size: 0.85rem;
-        }
-
         .login-screen {
             max-width: 460px;
             margin: 12vh auto;
         }
-
-        footer {
-            text-align: center;
-            margin-top: 2rem;
-            font-size: 0.75rem;
-            color: #4b6f8e;
-        }
-
         .error-message {
             background: #ffe6e5;
             color: #b91c1c;
@@ -276,7 +125,6 @@
             border-radius: 28px;
             margin-bottom: 1rem;
         }
-
         .success-message {
             background: #e0f2e9;
             color: #166534;
@@ -284,46 +132,11 @@
             border-radius: 28px;
             margin-bottom: 1rem;
         }
-
-        .modal {
-            display: none;
-            position: fixed;
-            top: 0; left: 0;
-            width: 100%; height: 100%;
-            background: rgba(0,0,0,0.4);
-            backdrop-filter: blur(6px);
-            justify-content: center;
-            align-items: center;
-            z-index: 1000;
-        }
-
-        .modal-content {
-            background: white;
-            max-width: 650px;
-            width: 90%;
-            border-radius: 40px;
-            padding: 1.8rem;
-            max-height: 85vh;
-            overflow-y: auto;
-            box-shadow: 0 30px 40px -20px rgba(0,0,0,0.3);
-        }
-
-        .field-row {
-            display: flex;
-            gap: 0.6rem;
-            align-items: center;
-            margin-bottom: 0.8rem;
-            flex-wrap: wrap;
-        }
-
-        .field-row input { flex: 2; }
-        .field-row select { flex: 1; }
-        .field-row button { flex-shrink: 0; }
-
-        @media (max-width: 700px) {
-            .card { padding: 1.2rem; }
-            .field-row { flex-direction: column; align-items: stretch; }
-            .field-row button { align-self: flex-start; }
+        footer {
+            text-align: center;
+            margin-top: 2rem;
+            font-size: 0.75rem;
+            color: #4b6f8e;
         }
     </style>
 </head>
@@ -332,20 +145,7 @@
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
-    // Глобальный обработчик ошибок для вывода на экран
-    window.onerror = function(message, source, lineno, colno, error) {
-        const app = document.getElementById('app');
-        if (app) {
-            const errDiv = document.createElement('div');
-            errDiv.className = 'error-message';
-            errDiv.innerHTML = `⚠️ <strong>Ошибка JavaScript:</strong> ${message}<br>Файл: ${source}<br>Строка: ${lineno}`;
-            app.prepend(errDiv);
-        }
-        console.error(error);
-        return false;
-    };
-
-    // --- Конфигурация Supabase ---
+    // ======================  КОНФИГУРАЦИЯ SUPABASE  ======================
     const SUPABASE_URL = "https://jnfhgnikpgpyeudlrdpe.supabase.co";
     const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImpuZmhnbmlrcGdweWV1ZGxyZHBlIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzQ5NDY3NjEsImV4cCI6MjA5MDUyMjc2MX0.7FsplRzp0dgYagixZnAHvH_Hl2OFZFUi5qvlU04roIg";
 
@@ -353,42 +153,43 @@
     let currentRole = null;
     let formsCache = [];
 
-    // --- helpers ---
+    // ----------  вспомогательные функции ----------
     function showError(msg) {
         const app = document.getElementById('app');
-        const err = document.createElement('div');
-        err.className = 'error-message';
-        err.innerHTML = `⚠️ ${msg}`;
-        app.prepend(err);
-        setTimeout(() => err.remove(), 5000);
+        const div = document.createElement('div');
+        div.className = 'error-message';
+        div.innerText = '⚠️ ' + msg;
+        app.prepend(div);
+        setTimeout(() => div.remove(), 5000);
         console.error(msg);
     }
 
     function showSuccess(msg) {
         const app = document.getElementById('app');
-        const succ = document.createElement('div');
-        succ.className = 'success-message';
-        succ.innerHTML = `✅ ${msg}`;
-        app.prepend(succ);
-        setTimeout(() => succ.remove(), 3000);
+        const div = document.createElement('div');
+        div.className = 'success-message';
+        div.innerText = '✅ ' + msg;
+        app.prepend(div);
+        setTimeout(() => div.remove(), 3000);
     }
 
     async function initSupabase() {
         try {
             supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
-            await supabase.from('forms').select('count', { head: true });
+            // проверяем соединение
+            const { error } = await supabase.from('forms').select('count', { head: true });
+            if (error) throw error;
             return true;
         } catch(e) {
-            showError("Не удалось подключиться к Supabase. Проверьте интернет и настройки CORS.");
+            showError("Не удалось подключиться к Supabase: " + e.message);
             return false;
         }
     }
 
     async function loadForms() {
         const { data, error } = await supabase.from('forms').select('*');
-        if (error) { showError(`Ошибка загрузки форм: ${error.message}`); return false; }
+        if (error) { showError("Ошибка загрузки форм: " + error.message); return false; }
         formsCache = data || [];
-        if (formsCache.length === 0) showError("Нет форм. Создайте первую форму через интерфейс терапевта.");
         return true;
     }
 
@@ -396,43 +197,42 @@
         const { data, error } = await supabase.from('availability').select('*');
         if (error) return {};
         const obj = {};
-        data.forEach(row => obj[row.form_id] = row.is_available);
+        if (data) data.forEach(row => obj[row.form_id] = row.is_available);
         return obj;
     }
 
     async function setAvailability(formId, isAvailable) {
-        const { error } = await supabase.from('availability').upsert({ form_id: formId, is_available: isAvailable }, { onConflict: 'form_id' });
-        if (error) showError(`Ошибка: ${error.message}`);
+        await supabase.from('availability').upsert({ form_id: formId, is_available: isAvailable }, { onConflict: 'form_id' });
     }
 
     async function addResponse(formId, dataObj) {
         const { error } = await supabase.from('responses').insert({ form_id: formId, data: dataObj });
-        if (error) { showError(`Ошибка сохранения: ${error.message}`); return false; }
+        if (error) { showError("Ошибка сохранения: " + error.message); return false; }
         return true;
     }
 
     async function getAllResponses() {
         const { data, error } = await supabase.from('responses').select('*, forms(name, fields, is_table)').order('created_at', { ascending: false });
-        if (error) { showError(`Ошибка загрузки ответов: ${error.message}`); return []; }
+        if (error) { showError("Ошибка загрузки ответов: " + error.message); return []; }
         return data;
     }
 
     async function createForm(name, description, fields, isTable) {
         const { error } = await supabase.from('forms').insert({ name, description, fields, is_table: isTable });
-        if (error) { showError(`Ошибка создания формы: ${error.message}`); return false; }
+        if (error) { showError("Ошибка создания: " + error.message); return false; }
         return true;
     }
 
     async function deleteForm(formId) {
         const { error } = await supabase.from('forms').delete().eq('id', formId);
-        if (error) { showError(`Ошибка удаления: ${error.message}`); return false; }
+        if (error) { showError("Ошибка удаления: " + error.message); return false; }
         return true;
     }
 
     async function clearAllResponses() {
-        if (!confirm("⚠️ ВНИМАНИЕ! Это удалит ВСЕ ответы пациента по всем формам. Отменить будет невозможно. Продолжить?")) return;
+        if (!confirm("Удалить ВСЕ ответы пациента? Отменить нельзя.")) return;
         const { error } = await supabase.from('responses').delete().neq('id', 0);
-        if (error) { showError(`Ошибка очистки: ${error.message}`); return false; }
+        if (error) { showError("Ошибка очистки: " + error.message); return false; }
         showSuccess("Все ответы удалены");
         return true;
     }
@@ -441,44 +241,12 @@
         const form = formsCache.find(f => f.id === formId);
         if (!confirm(`Удалить все ответы по форме "${form.name}"?`)) return;
         const { error } = await supabase.from('responses').delete().eq('form_id', formId);
-        if (error) { showError(`Ошибка очистки: ${error.message}`); return false; }
+        if (error) { showError("Ошибка очистки: " + error.message); return false; }
         showSuccess(`Ответы по форме "${form.name}" удалены`);
         return true;
     }
 
-    function renderResponsesTable(responses, form) {
-        if (!responses.length) return '<p>Нет ответов.</p>';
-        const fields = form.fields || [];
-        if (form.is_table) {
-            let html = '<div class="table-responsive"> <table> <thead> <tr> <th>📅 Дата</th>';
-            fields.forEach(f => html += `<th>${f.label}</th>`);
-            html += '</tr> </thead> <tbody>';
-            responses.forEach(resp => {
-                html += `<tr> <td>${new Date(resp.created_at).toLocaleString()}</td>`;
-                fields.forEach(f => {
-                    let val = resp.data[f.name] || '';
-                    html += `<td>${val}</td>`;
-                });
-                html += '</tr>';
-            });
-            html += '</tbody> </table> </div>';
-            return html;
-        } else {
-            let html = '';
-            responses.forEach(resp => {
-                html += `<div class="submissions" style="margin-bottom: 0.8rem;">
-                            <strong>${new Date(resp.created_at).toLocaleString()}</strong><br>`;
-                fields.forEach(f => {
-                    let val = resp.data[f.name];
-                    if (val) html += `<span style="font-weight:500">${f.label}:</span> ${val}<br>`;
-                });
-                html += `</div>`;
-            });
-            return html;
-        }
-    }
-
-    // --- Панель терапевта ---
+    // ----------  рендер для терапевта (упрощённо, только управление доступом и просмотр) ----------
     async function renderTherapist() {
         const app = document.getElementById('app');
         const availability = await getAvailability();
@@ -486,20 +254,20 @@
             <div class="header">
                 <h1>🧑‍⚕️ Психотерапия и заполнение рабочих листов</h1>
                 <div>
-                    <button id="clearAllBtn" class="btn-warning" style="margin-right: 0.5rem;">🧹 Очистить все ответы</button>
-                    <button id="createFormBtn" style="margin-right: 0.5rem;">➕ Создать форму</button>
-                    <button id="logoutBtn" class="btn-outline">Выйти</button>
+                    <button id="clearAllBtn" style="background:#d97706;">🧹 Очистить всё</button>
+                    <button id="createFormBtn" style="margin-left:0.5rem;">➕ Создать форму</button>
+                    <button id="logoutBtn" class="btn-outline" style="margin-left:0.5rem;">Выйти</button>
                 </div>
             </div>
             <div class="card">
-                <h2>📋 Управление формами (сессионные листы)</h2>
+                <h2>📋 Управление формами</h2>
                 <div id="formsList"></div>
             </div>
             <div class="card">
-                <h2>📥 Все ответы пациента</h2>
+                <h2>📥 Все ответы</h2>
                 <div id="responsesViewer">Загрузка...</div>
             </div>
-            <footer>Данные синхронизируются через Supabase. Названия форм рекомендуется указывать с номером сессии: "1 сессия — Дневник гнева"</footer>
+            <footer>Названия форм рекомендуется начинать с номера сессии: "1 сессия — Дневник гнева"</footer>
         `;
 
         const formsContainer = document.getElementById('formsList');
@@ -508,33 +276,38 @@
             const isAvail = availability[form.id] || false;
             const div = document.createElement('div');
             div.className = 'form-item';
+            div.style.background = '#ffffffea';
+            div.style.borderRadius = '28px';
+            div.style.padding = '1rem';
+            div.style.marginBottom = '1rem';
+            div.style.border = '1px solid #e2edf5';
             div.innerHTML = `
-                <div class="flex-between">
-                    <div><strong>${form.name}</strong> <span class="badge">${form.is_table ? '📊 Таблица' : '📄 Анкета'}</span></div>
-                    <div style="display: flex; gap: 0.5rem;">
-                        <div class="toggle-switch">
+                <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:0.5rem;">
+                    <div><strong>${form.name}</strong> <span style="background:#e2edf5; padding:2px 10px; border-radius:40px; font-size:0.7rem;">${form.is_table ? 'Таблица' : 'Анкета'}</span></div>
+                    <div style="display:flex; gap:0.5rem;">
+                        <div style="display:flex; align-items:center; gap:0.5rem;">
                             <span>Доступна</span>
-                            <input type="checkbox" data-id="${form.id}" ${isAvail ? 'checked' : ''}>
+                            <input type="checkbox" data-id="${form.id}" ${isAvail ? 'checked' : ''} style="width:40px; height:20px;">
                         </div>
-                        <button class="clear-form-responses btn-warning" data-id="${form.id}" style="padding: 4px 12px;">🧹 Очистить ответы</button>
-                        <button class="delete-form btn-danger" data-id="${form.id}" style="padding: 4px 12px;">🗑️</button>
+                        <button class="clear-form" data-id="${form.id}" style="background:#d97706; padding:4px 12px;">🧹 Очистить ответы</button>
+                        <button class="delete-form" data-id="${form.id}" style="background:#b91c1c; padding:4px 12px;">🗑️</button>
                     </div>
                 </div>
                 <p style="font-size:0.8rem; margin-top:8px;">${form.description || ''}</p>
             `;
             formsContainer.appendChild(div);
-            const chk = div.querySelector('input');
+            const chk = div.querySelector('input[type="checkbox"]');
             chk.addEventListener('change', async (e) => {
                 await setAvailability(form.id, e.target.checked);
             });
-            const clearBtn = div.querySelector('.clear-form-responses');
+            const clearBtn = div.querySelector('.clear-form');
             clearBtn.addEventListener('click', async () => {
                 await clearResponsesForForm(form.id);
                 updateResponsesView();
             });
             const delBtn = div.querySelector('.delete-form');
             delBtn.addEventListener('click', async () => {
-                if (confirm(`Удалить форму "${form.name}"? Все ответы также будут удалены.`)) {
+                if (confirm(`Удалить форму "${form.name}" и все её ответы?`)) {
                     await deleteForm(form.id);
                     await loadForms();
                     renderTherapist();
@@ -547,21 +320,41 @@
             const container = document.getElementById('responsesViewer');
             if (!container) return;
             if (responses.length === 0) {
-                container.innerHTML = '<p>Пока нет ответов.</p>';
+                container.innerHTML = '<p>Нет ответов.</p>';
                 return;
             }
-            const grouped = {};
-            for (let resp of responses) grouped[resp.form_id] = grouped[resp.form_id] || [];
-            for (let resp of responses) grouped[resp.form_id].push(resp);
             let html = '';
             for (let form of formsCache) {
-                const formResponses = grouped[form.id] || [];
+                const formResponses = responses.filter(r => r.form_id === form.id);
                 if (formResponses.length === 0) continue;
-                html += `<div style="margin-bottom: 2rem;"><h3>📄 ${form.name}</h3>`;
-                html += renderResponsesTable(formResponses, form);
+                html += `<div style="margin-bottom:2rem;"><h3>📄 ${form.name}</h3>`;
+                if (form.is_table) {
+                    html += '<div style="overflow-x:auto;"><table style="width:100%; border-collapse:collapse;">';
+                    html += '<thead><tr><th>📅 Дата</th>';
+                    (form.fields || []).forEach(f => html += `<th>${f.label}</th>`);
+                    html += '</tr></thead><tbody>';
+                    formResponses.forEach(resp => {
+                        html += `<tr><td>${new Date(resp.created_at).toLocaleString()}</td>`;
+                        (form.fields || []).forEach(f => {
+                            let val = resp.data[f.name] || '';
+                            html += `<td>${val}</td>`;
+                        });
+                        html += `</tr>`;
+                    });
+                    html += '</tbody></table></div>';
+                } else {
+                    formResponses.forEach(resp => {
+                        html += `<div style="background:#fef9e6; border-left:5px solid #eab308; margin-top:0.8rem; padding:0.9rem; border-radius:20px;">
+                                    <strong>${new Date(resp.created_at).toLocaleString()}</strong><br>`;
+                        (form.fields || []).forEach(f => {
+                            let val = resp.data[f.name];
+                            if (val) html += `<span style="font-weight:500">${f.label}:</span> ${val}<br>`;
+                        });
+                        html += `</div>`;
+                    });
+                }
                 html += `</div>`;
             }
-            if (html === '') html = '<p>Нет ответов ни по одной форме.</p>';
             container.innerHTML = html;
         }
         await updateResponsesView();
@@ -597,30 +390,40 @@
 
     function showCreateFormModal() {
         const modal = document.createElement('div');
-        modal.className = 'modal';
+        modal.style.position = 'fixed';
+        modal.style.top = '0';
+        modal.style.left = '0';
+        modal.style.width = '100%';
+        modal.style.height = '100%';
+        modal.style.backgroundColor = 'rgba(0,0,0,0.4)';
+        modal.style.backdropFilter = 'blur(4px)';
+        modal.style.display = 'flex';
+        modal.style.justifyContent = 'center';
+        modal.style.alignItems = 'center';
+        modal.style.zIndex = '1000';
         modal.innerHTML = `
-            <div class="modal-content">
-                <h3 style="margin-bottom: 1rem;">➕ Создать новую форму</h3>
+            <div style="background:white; max-width:600px; width:90%; border-radius:40px; padding:1.5rem; max-height:80vh; overflow-y:auto;">
+                <h3>➕ Создать новую форму</h3>
                 <div class="form-grid">
                     <div class="field-group">
-                        <label>Название формы (с номером сессии)</label>
-                        <input id="formName" placeholder="Пример: 1 сессия — Дневник гнева">
+                        <label>Название (с номером сессии)</label>
+                        <input id="formName" placeholder="1 сессия — Дневник гнева">
                     </div>
                     <div class="field-group">
-                        <label>Описание (необязательно)</label>
-                        <textarea id="formDesc" rows="2" placeholder="Краткое описание для пациента"></textarea>
+                        <label>Описание</label>
+                        <textarea id="formDesc" rows="2"></textarea>
                     </div>
                     <div class="field-group">
                         <label>Тип формы</label>
                         <select id="formType">
                             <option value="false">📄 Анкета (отдельные записи)</option>
-                            <option value="true">📊 Таблица (дневник с историей)</option>
+                            <option value="true">📊 Таблица (дневник)</option>
                         </select>
                     </div>
                     <div class="field-group">
-                        <label>Поля формы</label>
+                        <label>Поля</label>
                         <div id="fieldsList"></div>
-                        <button type="button" id="addFieldBtn" class="btn-outline" style="margin-top: 0.5rem;">+ Добавить поле</button>
+                        <button type="button" id="addFieldBtn" style="background:transparent; border:1px solid #3b82b6; color:#1f5e8c;">+ Добавить поле</button>
                     </div>
                     <div class="form-actions">
                         <button id="saveFormBtn">Создать</button>
@@ -630,33 +433,36 @@
             </div>
         `;
         document.body.appendChild(modal);
-        modal.style.display = 'flex';
 
         let fields = [];
 
         function renderFields() {
             const container = document.getElementById('fieldsList');
+            if (!container) return;
             container.innerHTML = '';
             fields.forEach((f, idx) => {
                 const div = document.createElement('div');
-                div.className = 'field-row';
+                div.style.display = 'flex';
+                div.style.gap = '0.5rem';
+                div.style.marginBottom = '0.5rem';
+                div.style.flexWrap = 'wrap';
                 div.innerHTML = `
-                    <input type="text" placeholder="Имя поля (латиницей, без пробелов)" value="${f.name}" style="flex:2">
-                    <input type="text" placeholder="Метка (отображаемый текст)" value="${f.label}" style="flex:3">
+                    <input type="text" placeholder="Имя (латиница)" value="${f.name}" style="flex:2">
+                    <input type="text" placeholder="Метка" value="${f.label}" style="flex:3">
                     <select style="flex:1">
                         <option value="text" ${f.type === 'text' ? 'selected' : ''}>Текст</option>
                         <option value="textarea" ${f.type === 'textarea' ? 'selected' : ''}>Многострочный</option>
                         <option value="number" ${f.type === 'number' ? 'selected' : ''}>Число</option>
                     </select>
-                    <button class="btn-outline remove-field" data-idx="${idx}" style="padding: 4px 10px;">✖️</button>
+                    <button class="remove-field" data-idx="${idx}" style="background:#b91c1c; padding:4px 10px;">✖️</button>
                 `;
                 container.appendChild(div);
-                const nameInput = div.querySelector('input:first-child');
-                const labelInput = div.querySelector('input:nth-child(2)');
-                const typeSelect = div.querySelector('select');
-                nameInput.addEventListener('input', (e) => fields[idx].name = e.target.value);
-                labelInput.addEventListener('input', (e) => fields[idx].label = e.target.value);
-                typeSelect.addEventListener('change', (e) => fields[idx].type = e.target.value);
+                const nameInp = div.querySelector('input:first-child');
+                const labelInp = div.querySelector('input:nth-child(2)');
+                const typeSel = div.querySelector('select');
+                nameInp.addEventListener('input', (e) => fields[idx].name = e.target.value);
+                labelInp.addEventListener('input', (e) => fields[idx].label = e.target.value);
+                typeSel.addEventListener('change', (e) => fields[idx].type = e.target.value);
                 div.querySelector('.remove-field').addEventListener('click', () => {
                     fields.splice(idx, 1);
                     renderFields();
@@ -673,12 +479,12 @@
             const name = document.getElementById('formName').value.trim();
             const desc = document.getElementById('formDesc').value;
             const isTable = document.getElementById('formType').value === 'true';
-            if (!name) { alert('Введите название формы (рекомендуется указывать номер сессии)'); return; }
+            if (!name) { alert('Введите название'); return; }
             if (fields.length === 0) { alert('Добавьте хотя бы одно поле'); return; }
             const namesSet = new Set();
             for (let f of fields) {
-                if (!f.name || !f.label) { alert('Заполните имена и метки полей'); return; }
-                if (namesSet.has(f.name)) { alert(`Имя поля "${f.name}" повторяется. Используйте уникальные имена (латиница).`); return; }
+                if (!f.name || !f.label) { alert('Заполните имя и метку поля'); return; }
+                if (namesSet.has(f.name)) { alert(`Поле с именем "${f.name}" повторяется`); return; }
                 namesSet.add(f.name);
             }
             const ok = await createForm(name, desc, fields, isTable);
@@ -693,7 +499,7 @@
         renderFields();
     }
 
-    // --- Пациентская панель ---
+    // ----------  панель пациента ----------
     async function renderPatient() {
         const app = document.getElementById('app');
         const availability = await getAvailability();
@@ -708,23 +514,30 @@
             </div>
             <footer>Данные сохраняются в облаке и видны терапевту. Формы открываются по мере прохождения сессий.</footer>
         `;
-
         const container = document.getElementById('patientFormsContainer');
         if (availableForms.length === 0) {
             container.innerHTML = '<p>⏳ Нет доступных форм. Терапевт откроет их позже.</p>';
-            document.getElementById('logoutBtnPatient').addEventListener('click', () => { currentRole = null; sessionStorage.removeItem('therapyRole'); renderLogin(); });
+            document.getElementById('logoutBtnPatient').addEventListener('click', () => {
+                currentRole = null;
+                sessionStorage.removeItem('therapyRole');
+                renderLogin();
+            });
             return;
         }
 
         for (let form of availableForms) {
             const formCard = document.createElement('div');
             formCard.className = 'form-item';
+            formCard.style.background = '#ffffffea';
+            formCard.style.borderRadius = '28px';
+            formCard.style.padding = '1.2rem';
             formCard.style.marginBottom = '2rem';
+            formCard.style.border = '1px solid #e2edf5';
             formCard.innerHTML = `<h3>${form.is_table ? '📊' : '📄'} ${form.name}</h3>
-                                  <p style="font-size:0.85rem; margin-bottom: 1rem;">${form.description || ''}</p>
-                                  <div id="form-${form.id}" class="form-grid" style="margin-top: 0.5rem;"></div>
+                                  <p style="font-size:0.85rem; margin-bottom:1rem;">${form.description || ''}</p>
+                                  <div id="form-${form.id}" class="form-grid"></div>
                                   <div class="form-actions"><button class="save-btn" data-id="${form.id}">💾 Сохранить ответ</button></div>
-                                  <div class="history-title" style="margin-top: 1.5rem; font-weight: 500;">📅 Мои предыдущие записи:</div>
+                                  <div style="margin-top:1.5rem; font-weight:500;">📅 Мои предыдущие записи:</div>
                                   <div id="history-${form.id}"></div>`;
             container.appendChild(formCard);
             const fieldsContainer = formCard.querySelector(`#form-${form.id}`);
@@ -742,28 +555,29 @@
 
             async function loadHistory(formId, historyDiv) {
                 const { data, error } = await supabase.from('responses').select('*').eq('form_id', formId).order('created_at', { ascending: false });
-                if (error) { historyDiv.innerHTML = '<p>Ошибка загрузки истории</p>'; return; }
+                if (error) { historyDiv.innerHTML = '<p>Ошибка загрузки</p>'; return; }
                 if (data.length === 0) { historyDiv.innerHTML = '<p>Пока нет записей.</p>'; return; }
                 if (form.is_table) {
-                    let html = '<div class="table-responsive"> <table> <thead> <tr> <th>📅 Дата</th>';
-                    form.fields.forEach(f => html += `<th>${f.label}</th>`);
-                    html += '</tr> </thead> <tbody>';
+                    let html = '<div style="overflow-x:auto;"><table style="width:100%; border-collapse:collapse;">';
+                    html += '<thead><tr><th>📅 Дата</th>';
+                    (form.fields || []).forEach(f => html += `<th>${f.label}</th>`);
+                    html += '</tr></thead><tbody>';
                     data.forEach(resp => {
-                        html += `<tr> <td>${new Date(resp.created_at).toLocaleString()}</td>`;
-                        form.fields.forEach(f => {
+                        html += `<tr><td>${new Date(resp.created_at).toLocaleString()}</td>`;
+                        (form.fields || []).forEach(f => {
                             let val = resp.data[f.name] || '';
                             html += `<td>${val}</td>`;
                         });
-                        html += '</tr>';
+                        html += `</tr>`;
                     });
-                    html += '</tbody> </table> </div>';
+                    html += '</tbody></table></div>';
                     historyDiv.innerHTML = html;
                 } else {
                     let html = '';
                     data.forEach(resp => {
-                        html += `<div class="submissions" style="margin-top: 0.5rem;">
+                        html += `<div style="background:#fef9e6; border-left:5px solid #eab308; margin-top:0.5rem; padding:0.8rem; border-radius:20px;">
                                     <strong>${new Date(resp.created_at).toLocaleString()}</strong><br>`;
-                        form.fields.forEach(f => {
+                        (form.fields || []).forEach(f => {
                             let val = resp.data[f.name];
                             if (val) html += `<span style="font-weight:500">${f.label}:</span> ${val}<br>`;
                         });
@@ -812,13 +626,13 @@
         });
     }
 
-    // --- Экран входа (обновлённый заголовок) ---
+    // ----------  экран входа ----------
     function renderLogin() {
         const app = document.getElementById('app');
         app.innerHTML = `
             <div class="login-screen card">
-                <h1 style="text-align:center; display:block; margin-bottom:0.5rem;">🧠 Психотерапия и заполнение рабочих листов</h1>
-                <p style="text-align:center; margin-bottom:2rem; color:#2c5a7a;">Введите код доступа</p>
+                <h1 style="text-align:center; display:block;">🧠 Психотерапия и заполнение рабочих листов</h1>
+                <p style="text-align:center; margin:1rem 0 2rem;">Введите код доступа</p>
                 <div class="form-grid">
                     <div class="field-group">
                         <label>Код</label>
@@ -835,25 +649,24 @@
             if (code === '1113') {
                 currentRole = 'therapist';
                 sessionStorage.setItem('therapyRole', 'therapist');
-                const ok = await loadForms();
-                if (ok) renderTherapist();
-                else renderLogin();
+                await loadForms();
+                renderTherapist();
             } else if (code === '1') {
                 currentRole = 'patient';
                 sessionStorage.setItem('therapyRole', 'patient');
-                const ok = await loadForms();
-                if (ok) renderPatient();
-                else renderLogin();
+                await loadForms();
+                renderPatient();
             } else {
                 alert('Неверный код');
             }
         });
     }
 
-    // --- Старт ---
+    // ----------  запуск ----------
     (async () => {
-        if (!await initSupabase()) {
-            renderLogin();
+        const ok = await initSupabase();
+        if (!ok) {
+            renderLogin(); // показываем вход, даже если supabase не работает (но ошибка уже видна)
             return;
         }
         const savedRole = sessionStorage.getItem('therapyRole');
