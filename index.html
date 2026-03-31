@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     <title>Психотерапия | Рабочие листы</title>
     <style>
+        /* базовый сброс и шрифты без внешних зависимостей */
         * {
             margin: 0;
             padding: 0;
@@ -12,36 +13,26 @@
         }
 
         body {
-            font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, sans-serif;
+            font-family: system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
             background: linear-gradient(145deg, #eef2f9 0%, #d9e2ef 100%);
             color: #1a2c3e;
             padding: 24px;
             min-height: 100vh;
         }
 
-        /* подключение шрифта */
-        @import url('https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700&display=swap');
-
         .container {
             max-width: 1400px;
             margin: 0 auto;
         }
 
-        /* карточки с мягкой тенью и свечением */
         .card {
             background: rgba(255, 255, 255, 0.96);
-            backdrop-filter: blur(0px);
             border-radius: 32px;
             box-shadow: 0 20px 35px -12px rgba(0, 0, 0, 0.1), 0 1px 2px rgba(0, 0, 0, 0.02);
             padding: 1.8rem;
             margin-bottom: 2rem;
             transition: all 0.2s ease;
             border: 1px solid rgba(255, 255, 255, 0.6);
-        }
-
-        .card:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 24px 40px -14px rgba(0, 0, 0, 0.15);
         }
 
         .header {
@@ -73,7 +64,6 @@
             color: #0f3b5c;
             border-left: 5px solid #3b82b6;
             padding-left: 1rem;
-            letter-spacing: -0.2px;
         }
 
         button {
@@ -86,25 +76,21 @@
             cursor: pointer;
             transition: all 0.2s;
             font-size: 0.9rem;
-            box-shadow: 0 1px 2px rgba(0,0,0,0.05);
         }
 
         button:hover {
             background: #1f5e8c;
             transform: scale(0.97);
-            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
         }
 
         .btn-outline {
             background: transparent;
             border: 1px solid #3b82b6;
             color: #1f5e8c;
-            box-shadow: none;
         }
 
         .btn-outline:hover {
             background: #eef4ff;
-            transform: scale(0.97);
         }
 
         .btn-danger {
@@ -137,7 +123,6 @@
             font-weight: 600;
             font-size: 0.85rem;
             color: #2c4f6e;
-            letter-spacing: -0.2px;
         }
 
         input, textarea, select {
@@ -215,7 +200,6 @@
             border-radius: 28px;
             padding: 1.2rem;
             border: 1px solid #e2edf5;
-            transition: 0.1s;
         }
 
         .flex-between {
@@ -246,7 +230,6 @@
             background: white;
             border-radius: 20px;
             overflow: hidden;
-            box-shadow: 0 1px 2px rgba(0,0,0,0.05);
         }
 
         th, td {
@@ -292,7 +275,6 @@
             padding: 1rem;
             border-radius: 28px;
             margin-bottom: 1rem;
-            font-size: 0.9rem;
         }
 
         .success-message {
@@ -343,12 +325,6 @@
             .field-row { flex-direction: column; align-items: stretch; }
             .field-row button { align-self: flex-start; }
         }
-
-        .icon-badge {
-            font-size: 1.2rem;
-            vertical-align: middle;
-            margin-right: 6px;
-        }
     </style>
 </head>
 <body>
@@ -356,7 +332,20 @@
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
-    // --- Supabase config ---
+    // Глобальный обработчик ошибок для вывода на экран
+    window.onerror = function(message, source, lineno, colno, error) {
+        const app = document.getElementById('app');
+        if (app) {
+            const errDiv = document.createElement('div');
+            errDiv.className = 'error-message';
+            errDiv.innerHTML = `⚠️ <strong>Ошибка JavaScript:</strong> ${message}<br>Файл: ${source}<br>Строка: ${lineno}`;
+            app.prepend(errDiv);
+        }
+        console.error(error);
+        return false;
+    };
+
+    // --- Конфигурация Supabase ---
     const SUPABASE_URL = "https://jnfhgnikpgpyeudlrdpe.supabase.co";
     const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImpuZmhnbmlrcGdweWV1ZGxyZHBlIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzQ5NDY3NjEsImV4cCI6MjA5MDUyMjc2MX0.7FsplRzp0dgYagixZnAHvH_Hl2OFZFUi5qvlU04roIg";
 
@@ -461,18 +450,18 @@
         if (!responses.length) return '<p>Нет ответов.</p>';
         const fields = form.fields || [];
         if (form.is_table) {
-            let html = '<div class="table-responsive"><table><thead><tr><th>📅 Дата</th>';
+            let html = '<div class="table-responsive"> <table> <thead> <tr> <th>📅 Дата</th>';
             fields.forEach(f => html += `<th>${f.label}</th>`);
-            html += '</tr></thead><tbody>';
+            html += '</tr> </thead> <tbody>';
             responses.forEach(resp => {
-                html += `<tr><td>${new Date(resp.created_at).toLocaleString()}</td>`;
+                html += `<tr> <td>${new Date(resp.created_at).toLocaleString()}</td>`;
                 fields.forEach(f => {
                     let val = resp.data[f.name] || '';
                     html += `<td>${val}</td>`;
                 });
                 html += '</tr>';
             });
-            html += '</tbody></table></div>';
+            html += '</tbody> </table> </div>';
             return html;
         } else {
             let html = '';
@@ -756,18 +745,18 @@
                 if (error) { historyDiv.innerHTML = '<p>Ошибка загрузки истории</p>'; return; }
                 if (data.length === 0) { historyDiv.innerHTML = '<p>Пока нет записей.</p>'; return; }
                 if (form.is_table) {
-                    let html = '<div class="table-responsive"><table><thead><tr><th>📅 Дата</th>';
+                    let html = '<div class="table-responsive"> <table> <thead> <tr> <th>📅 Дата</th>';
                     form.fields.forEach(f => html += `<th>${f.label}</th>`);
-                    html += '</tr></thead><tbody>';
+                    html += '</tr> </thead> <tbody>';
                     data.forEach(resp => {
-                        html += `<tr><td>${new Date(resp.created_at).toLocaleString()}</td>`;
+                        html += `<tr> <td>${new Date(resp.created_at).toLocaleString()}</td>`;
                         form.fields.forEach(f => {
                             let val = resp.data[f.name] || '';
                             html += `<td>${val}</td>`;
                         });
                         html += '</tr>';
                     });
-                    html += '</tbody></table></div>';
+                    html += '</tbody> </table> </div>';
                     historyDiv.innerHTML = html;
                 } else {
                     let html = '';
